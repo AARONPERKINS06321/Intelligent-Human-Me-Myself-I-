@@ -3,59 +3,165 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aaron – It’s going to be.</title>
+  <title>Aaron's Insight Hub: AI, Advocacy & Evidence LIVE!</title>
   <style>
     body {
+      background: linear-gradient(135deg, #181b29 0%, #25293e 100%);
+      color: #f5f5f5;
+      font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
-      font-family: sans-serif;
-      background-color: #111;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 40px 16px 80px 16px;
       text-align: center;
     }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      margin-top: 32px;
+      margin-bottom: 24px;
+      object-fit: cover;
+      border: 4px solid #1fc8db;
+    }
     h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
+      font-size: 2.7rem;
+      margin-bottom: 0.3em;
+      letter-spacing: 0.5px;
     }
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      max-width: 600px;
+    .subtitle {
+      color: #1fc8db;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      font-size: 1.15rem;
     }
-    a.button {
+    .desc {
+      font-size: 1.1rem;
+      margin-bottom: 32px;
+      line-height: 1.6;
+      color: #e4e6ed;
+    }
+    .linktree {
       display: inline-block;
-      padding: 0.75rem 1.5rem;
-      margin: 0.5rem;
-      background: #00aaff;
-      color: white;
+      padding: 10px 26px;
+      background: #1fc8db;
+      color: #151728;
+      border-radius: 99px;
       text-decoration: none;
-      border-radius: 8px;
       font-weight: bold;
+      margin-bottom: 36px;
+      transition: background 0.2s;
     }
-    iframe {
+    .linktree:hover {
+      background: #18a0b7;
+      color: #fff;
+    }
+    .subscribe {
+      background: #e94560;
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 12px;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+    .subscribe:hover {
+      background: #b8334a;
+    }
+    .yt-section {
+      margin: 44px 0 24px 0;
+    }
+    .video-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+    }
+    .video-card {
+      background: #212440;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+      width: 320px;
+      max-width: 95vw;
+      overflow: hidden;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+    .video-card iframe, .video-card img {
       width: 100%;
-      max-width: 560px;
-      height: 315px;
-      border: none;
-      margin-top: 2rem;
+      height: 180px;
+      display: block;
+    }
+    .video-title {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 10px 0 12px 16px;
+      line-height: 1.4;
+      text-decoration: none;
+      display: block;
+    }
+    .footer {
+      margin-top: 48px;
+      font-size: 0.95rem;
+      color: #9297af;
+      text-align: center;
+    }
+    @media (max-width: 700px) {
+      h1 { font-size: 2rem; }
+      .container { padding: 22px 3vw 60px 3vw;}
+      .video-card { width: 97vw; }
     }
   </style>
 </head>
 <body>
-  <h1>Aaron. It’s going to be.</h1>
-  <p>This is where the real story begins. It’s not about pretending—it’s about showing up fully. Welcome to the journey.</p>
+  <div class="container">
+    <!-- Optional: Replace src with your actual avatar image if you have one -->
+    <img src="https://yt3.googleusercontent.com/ytc/AIdro_lwOT6qQdZ0-avatar=s120-c-k-c0x00ffffff-no-rj" alt="Avatar" class="avatar" />
 
-  <!-- Replace the video URL below with your own YouTube video or channel embed -->
-  <iframe src="https://www.youtube.com/channel/UC6ZQOW8pVu3jMKco21ZR2Eg" allowfullscreen></iframe>
+    <h1>Aaron's Insight Hub</h1>
+    <div class="subtitle">AI, Advocacy & Evidence LIVE!</div>
 
-  <div>
-    <a class="button" href="https://www.youtube.com/@MIDNIGHT-ROBOTERS-AI" target="_blank">Subscribe on YouTube</a>
-    <a class="button" href="mailto:aaronperkins0632@yahoo.com">Email Me</a>
-    <!-- Add more buttons/links as needed -->
+    <div class="desc">
+      Welcome to Aaron's Insight Hub! Here, we blend human experience and cutting-edge AI to explore the intersections of technology, law, and personal growth.<br><br>
+      Join us as we navigate the complexities of parental alienation, evidence gathering, and legal advocacy, all while leveraging the power of AI to find balance and insight.<br><br>
+      Whether you're here for tech innovation or personal empowerment, you're in the right place.<br>
+      <strong>Let's grow together!</strong>
+    </div>
+
+    <a class="linktree" href="https://linktr.ee/AARON_MINIGHT_ROBOTERS" target="_blank">My Linktree</a>
+    <a class="subscribe" href="https://www.youtube.com/@MIDNIGHT-ROBOTERS-AI?sub_confirmation=1" target="_blank">Subscribe on YouTube</a>
+
+    <div class="yt-section">
+      <h2 style="margin-bottom:12px; color:#1fc8db;">Latest Videos</h2>
+      <div class="video-list">
+        <!-- Replace the src URLs with your own video IDs or images -->
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_1" title="Artificial Intelligence, Grace, Empathy, and a Little Bit of What the?" allowfullscreen></iframe>
+          <a class="video-title" href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID_1" target="_blank">Artificial Intelligence, Grace, Empathy, and a Little Bit of What the?</a>
+        </div>
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_2" title="Midnight Roboters: Where Night Meets Machine" allowfullscreen></iframe>
+          <a class="video-title" href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID_2" target="_blank">Midnight Roboters: Where Night Meets Machine</a>
+        </div>
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID_3" title="The Loneliest Day of My Life" allowfullscreen></iframe>
+          <a class="video-title" href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID_3" target="_blank">The Loneliest Day of My Life</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      &copy; 2025 Aaron Perkins &mdash; Insight Hub.<br>
+      Not affiliated with Google LLC or YouTube.
+    </div>
   </div>
 </body>
 </html>
