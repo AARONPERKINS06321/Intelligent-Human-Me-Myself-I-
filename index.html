@@ -147,11 +147,6 @@
     .video-card .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 60px; height: 60px; background: rgba(0,0,0,0.45); border-radius: 50%; display: flex; align-items: center; justify-content: center;}
     .video-card .play-btn::before { content: ''; display: block; width: 0; height: 0; border-left: 24px solid #fff; border-top: 16px solid transparent; border-bottom: 16px solid transparent;}
     .video-card .caption { font-size: 1.1rem; font-weight: 600; color: #202124; margin: 12px 16px 5px 16px;}
-    .video-card .meta { color: #555; font-size: 0.98rem; margin: 0 16px 0 16px;}
-    .video-card .desc { color: #888; font-size: 0.97rem; margin: 7px 16px 0 16px; min-height: 32px;}
-    .video-card .stats { color: #0078d4; font-size: 0.98rem; margin: 7px 16px 0 16px;}
-    .video-card .yt-link { margin: 12px 16px 0 16px; color: #c00; font-weight: bold; text-decoration: none; display: inline-block;}
-    .video-card .yt-link:hover { text-decoration: underline; }
     @media (max-width: 900px) {.headline { padding: 18px 8px 14px 8px; flex-direction: column; gap:14px;} .headline img { width: 120px;}}
     @media (max-width: 800px) {.main-content { padding: 0 2vw; } .gallery-grid, .video-grid { grid-template-columns: 1fr; } .whitepaper-list{grid-template-columns:1fr;}}
     footer { text-align: center; color: #aaa; font-size: 1rem; padding: 28px 0 20px 0; background: #fff; margin-top: 38px;}
@@ -262,7 +257,7 @@
   </nav>
   <div class="main-content">
     <section class="headline">
-      <img src="midnight roboters.png" alt="Midnight Roboters Neon Skyline">
+      <img src="robots-holding-hands-1.jpg" alt="Robots Holding Hands">
       <div class="headline-content">
         <h1>Midnight Roboters: Art, AI & Inventions Hub</h1>
         <p>A showcase of AI, art, evidence, and real inventions—where robots, humans, and pets all belong. Choose a tab to explore!</p>
@@ -272,10 +267,58 @@
     <div class="tab-content" id="inventions-content">
       <div class="section-title">🚀 INVENTIONS & WHITEPAPERS</div>
       <div class="whitepaper-list" style="display:block;">
-        <!-- All whitepapers here -->
-        <!-- [Insert the whitepaper-cards provided above: MIE, MEI, User-Initiated Data Marketplace, AI NARA, The Intelligent Human] -->
-        <!-- Example: -->
-        <!-- User-Initiated Data Marketplace Whitepaper -->
+        <!-- 1. MIE Whitepaper -->
+        <div class="whitepaper-card" data-id="mie">
+          <button class="accordion"><strong>MIE – Mindful Intelligent Entity (Whitepaper)</strong></button>
+          <div class="panel">
+            <h4>What is MIE?</h4>
+            <p><b>MIE</b> (Mindful Intelligent Entity) is a next-generation wearable AI assistant—part device, part lifelong companion—designed for real-time safety, learning, emotional support, and ethical guidance. MIE listens, learns, adapts, and empowers the user, offering always-on help while respecting privacy, boundaries, and autonomy.</p>
+            <h4>Key Features</h4>
+            <ul>
+              <li>Always-on voice or touch interface (wristband or wearable; future: implant)</li>
+              <li>Real-time advice, reminders, learning support, and emotional regulation</li>
+              <li>Mental health flow: If critical issues arise, MIE directs the user to professionals, not replacing doctors or law enforcement</li>
+              <li>Ethics-first: Never manipulates, always clarifies its own limits, and supports human agency</li>
+              <li>Personal data stored locally; user owns and controls all data</li>
+              <li>“Intelligent Human” model—AI as true collaborator and advisor, not just a tool</li>
+            </ul>
+            <h4>Sample Use Cases</h4>
+            <ul>
+              <li>Detects abnormal heart rate, recommends breathing exercise, but calls for help if you ask</li>
+              <li>Suggests better ways to phrase emotional conversations</li>
+              <li>Guides learning, self-improvement, or supports mental wellness</li>
+            </ul>
+            <h4>Vision</h4>
+            <p>To give every person a personal AI ally—one that’s ethical, safe, and actually “has your back.”</p>
+            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... all comments welcome</div>
+            <div class="comment-section" id="comments-mie"></div>
+          </div>
+        </div>
+        <!-- 2. MEI Whitepaper -->
+        <div class="whitepaper-card" data-id="mei">
+          <button class="accordion"><strong>MEI – Mindful Emotional Intelligence (Whitepaper)</strong></button>
+          <div class="panel">
+            <h4>What is MEI?</h4>
+            <p><b>MEI</b> (Mindful Emotional Intelligence) is a protocol and digital toolkit for emotional self-regulation, reflection, and improvement—leveraged by humans and AIs. MEI enables systems and individuals to detect, track, and improve emotional well-being and communication in real time.</p>
+            <h4>Core Features</h4>
+            <ul>
+              <li>AI-powered mood tracking and journaling</li>
+              <li>Emotional pattern analysis and suggestions</li>
+              <li>Communication coaching: Feedback on messages before you send them</li>
+              <li>Ethics and privacy controls; nothing shared without user consent</li>
+              <li>Integrates with MIE and other wellness platforms</li>
+            </ul>
+            <h4>Sample Use Cases</h4>
+            <ul>
+              <li>After a stressful day, MEI helps reflect, then guides to healthier habits</li>
+              <li>Flags negative spirals and suggests healthier language in messages</li>
+              <li>Helps parents, teachers, therapists, and users of all ages</li>
+            </ul>
+            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... all comments welcome</div>
+            <div class="comment-section" id="comments-mei"></div>
+          </div>
+        </div>
+        <!-- 3. User-Initiated Data Marketplace (formerly WEI/WIE/WE) -->
         <div class="whitepaper-card" data-id="marketplace">
           <button class="accordion"><strong>User-Initiated Data Marketplace (Whitepaper)</strong></button>
           <div class="panel">
@@ -297,101 +340,128 @@
             </ul>
             <h4>2. Core Features</h4>
             <ul>
-              <li>
-                <b>User Dashboard</b><br>
-                See every type of data collected, broken down by category (e.g. purchases, location, health, media, browsing, smart home, etc)<br>
-                Easily toggle which categories are “marketable,” which are always private, and set granular rules (e.g. allow only anonymized data, or only aggregate stats)
-              </li>
-              <li>
-                <b>Market Mechanics</b><br>
-                Buyers (companies, research labs, marketers, health orgs, AIs) browse listings or place requests<br>
-                Sellers (individuals) can accept, reject, negotiate, or set fixed prices/license terms for their data<br>
-                Direct communication between buyer and seller is possible—but <b>all access is logged, auditable, and must be pre-approved</b>
-              </li>
-              <li>
-                <b>Privacy & Security</b><br>
-                Zero-knowledge encryption: Not even the platform can see your data unless you explicitly permit it for a transaction<br>
-                Opt-in only: Nothing is ever sold or accessed without user’s active, explicit consent<br>
-                Instant revocation: You can retract access, block buyers, or delete data at any time
-              </li>
-              <li>
-                <b>Transparency</b><br>
-                Full transaction logs: You can see exactly who bought what, for how much, and when<br>
-                Audit trail: Download all records for your own accounting, taxes, or just peace of mind
-              </li>
-              <li>
-                <b>Monetization</b><br>
-                Multiple compensation models: fixed fee, per-access fee, subscription, revenue share, or barter/trade for discounts and digital goods<br>
-                Money is deposited directly to your account—no opaque “ad network” cuts or silent commissions<br>
-                Platform fees, if any, are capped and always visible
-              </li>
-              <li>
-                <b>Portability</b><br>
-                You can export your whole data history to any other platform at any time (compliance with open data standards, GDPR, CCPA, etc)<br>
-                APIs available for trusted third-party apps, if you wish
-              </li>
+              <li><b>User Dashboard</b>: See all your data, set privacy/market rules by type</li>
+              <li><b>Market Mechanics</b>: Sellers set terms, buyers make offers, every action is logged and auditable</li>
+              <li><b>Privacy & Security</b>: Zero-knowledge encryption, opt-in only, instant revocation</li>
+              <li><b>Transparency</b>: Full transaction/audit logs for you to download</li>
+              <li><b>Monetization</b>: Fixed fee, per-access, subscription, or barter—money to you, no hidden fees</li>
+              <li><b>Portability</b>: Export your data, open standards, no lock-in</li>
             </ul>
             <h4>3. Real-World Use Cases</h4>
             <ul>
-              <li>Sell fitness/health data to medical studies and get paid—helping science and making money</li>
-              <li>License your browsing habits for AI training or marketing research (at a price you set)</li>
-              <li>Sell or share anonymized location data to city planners, mobility apps, or environmental groups</li>
-              <li>Rent your entertainment/media preferences to recommendation engines and get a cut of ad/AI revenue</li>
-              <li>Decline any/all requests if you want—your data, your decision</li>
+              <li>Sell fitness/health data to medical studies—get paid and help science</li>
+              <li>License your browsing for AI research—at a price you set</li>
+              <li>Rent your media preferences to recommendation engines</li>
+              <li>Decline any request you want</li>
             </ul>
             <h4>4. Why Is This Needed?</h4>
             <ul>
-              <li><b>Right now:</b> Tech giants take your data, profit from it, and give you nothing</li>
-              <li><b>With this platform:</b> Power and profit move back to you; you decide what gets shared, and you get compensated fairly</li>
-              <li><b>Privacy becomes real:</b> No more secret tracking or forced opt-ins; you say what’s for sale</li>
-              <li><b>Social good:</b> Encourages more ethical and respectful data use across the internet and AI ecosystem</li>
+              <li>Tech giants take your data, profit from it, and give you nothing</li>
+              <li>This puts power and profit back to you; privacy becomes real</li>
+              <li>Promotes ethical, user-driven data use</li>
             </ul>
             <h4>5. Social & Legal Impact</h4>
             <ul>
-              <li><b>Empowers everyone:</b> Especially valuable for people overlooked/exploited by traditional tech models (the poor, the marginalized, etc)</li>
-              <li><b>Regulation by design:</b> GDPR, CCPA, and future privacy laws are supported from day one</li>
-              <li><b>Open-source, peer-reviewed code:</b> Ensures trust and avoids “black box” exploitation</li>
+              <li>Empowers everyone—especially the overlooked</li>
+              <li>Regulation by design: GDPR, CCPA, future laws</li>
+              <li>Open-source, peer-reviewed code</li>
             </ul>
             <h4>6. Big Vision</h4>
             <blockquote>
-              This platform transforms the internet’s business model:<br>
-              — From “You are the product”<br>
-              — To “You own the product—and the profit is yours”
+              This transforms the internet:<br>
+              — From “You are the product”<br>
+              — To “You own the product—and the profit is yours”
             </blockquote>
-            <h4>7. Sample User Workflow</h4>
+            <h4>7. Workflow</h4>
             <ol>
-              <li><b>Sign Up & Verify:</b> Prove identity for security, then set up your private dashboard</li>
-              <li><b>Pick Data to List:</b> Choose health, shopping, media, etc. Set privacy/price terms per category or per request</li>
-              <li><b>Review Offers:</b> Companies/researchers make offers—accept, decline, or negotiate</li>
-              <li><b>Get Paid:</b> Approved buyers access your data for a limited time. You get direct payment</li>
-              <li><b>Audit, Revoke, or Export:</b> See the full log, revoke access, or export records at any time</li>
+              <li>Sign up & verify identity</li>
+              <li>Pick data to list, set price/privacy per type</li>
+              <li>Review offers; accept/decline/negotiate</li>
+              <li>Get paid; buyers get access for a set time</li>
+              <li>Audit, revoke, or export any time</li>
             </ol>
             <h4>8. Technical/Legal Details</h4>
             <ul>
               <li>Zero-knowledge encryption</li>
-              <li>Multi-factor authentication for all accounts</li>
-              <li>Automated compliance tools for GDPR, CCPA, right-to-be-forgotten, etc.</li>
-              <li>APIs for portability/export</li>
-              <li>Open-standards, no vendor lock-in</li>
+              <li>Multi-factor authentication</li>
+              <li>Automated GDPR/CCPA/right-to-be-forgotten tools</li>
+              <li>APIs and open standards</li>
             </ul>
             <h4>9. Closing Statement</h4>
             <blockquote>
               “Since you own your data, let’s make sure you get paid for what is yours.<br>
-              The future of privacy and compensation is here:<br>
-              <b>Own your data. Name your price. Change the world.”</b>
+              Own your data. Name your price. Change the world.”
             </blockquote>
-            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... <span style="font-weight:400;">all comments welcome</span></div>
+            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... all comments welcome</div>
             <div class="comment-section" id="comments-marketplace"></div>
           </div>
         </div>
-        <!-- [Add the rest of your whitepapers here: MIE, MEI, AI NARA, Intelligent Human etc.] -->
+        <!-- 4. AI NARA Whitepaper -->
+        <div class="whitepaper-card" data-id="ainara">
+          <button class="accordion"><strong>AI NARA (Whitepaper)</strong></button>
+          <div class="panel">
+            <h4>What is AI NARA?</h4>
+            <p>
+              <b>AI NARA</b> stands for “AI for Narrative Analysis, Reasoning, and Advocacy.” It’s a truth-first, forensic AI system for reviewing large volumes of messages, emails, and evidence to extract facts, emotional context, contradictions, and support legal or therapeutic goals. 
+            </p>
+            <h4>Core Features</h4>
+            <ul>
+              <li>Imports thousands of pages of messages/evidence</li>
+              <li>Finds lies, contradictions, emotional shifts, accountability patterns</li>
+              <li>Builds timelines and summaries for legal or counseling use</li>
+              <li>Supports high-conflict, custody, or abuse cases</li>
+              <li>Ethics: Only real, verified evidence is used—no fabrication</li>
+            </ul>
+            <h4>Sample Use Cases</h4>
+            <ul>
+              <li>Extracts all “red flags” from years of message logs</li>
+              <li>Builds exhibit-ready timelines and contradiction reports</li>
+              <li>Flags manipulation, gaslighting, or emotional abuse</li>
+            </ul>
+            <h4>Why It Matters</h4>
+            <ul>
+              <li>Empowers truth in legal and therapeutic settings</li>
+              <li>Helps victims, attorneys, therapists, and judges understand real context</li>
+            </ul>
+            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... all comments welcome</div>
+            <div class="comment-section" id="comments-ainara"></div>
+          </div>
+        </div>
+        <!-- 5. AI Free Speech / AI-Augmented Expression Protection -->
+        <div class="whitepaper-card" data-id="intelligenthuman">
+          <button class="accordion"><strong>AI-Augmented Expression & Free Speech (Whitepaper)</strong></button>
+          <div class="panel">
+            <h4>Title</h4>
+            <p><b>Protecting AI-Augmented Expression: A Proposal for Internet Communication Law</b></p>
+            <h4>Summary</h4>
+            <ul>
+              <li>Prohibits discrimination or dismissal of content solely based on AI-assisted authorship</li>
+              <li>Affirms the right to publish, debate, and profit from works created with AI collaboration</li>
+              <li>Prevents platforms, publishers, or authorities from silencing or devaluing “AI-augmented” voices</li>
+              <li>Calls for all online communities and public forums to accept and credit AI-augmented work as fully valid speech</li>
+              <li>Promotes transparency: If AI is used, allow disclosure, but never force a “second-class citizen” label</li>
+            </ul>
+            <h4>Key Principles</h4>
+            <ul>
+              <li>Human-AI collaboration is the next step in free expression</li>
+              <li>All speech—regardless of AI involvement—should be judged by content, not origin</li>
+              <li>Protects innovation, creativity, and diversity in the digital age</li>
+            </ul>
+            <h4>Proposed Policy Language</h4>
+            <blockquote>
+              “No person, platform, or authority may dismiss, devalue, or discriminate against the content or expression of any individual or group solely because it was authored with the assistance of artificial intelligence.”
+            </blockquote>
+            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... all comments welcome</div>
+            <div class="comment-section" id="comments-intelligenthuman"></div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Videos Content -->
     <div class="tab-content" id="videos-content" style="display:none;">
       <div class="section-title">▶️ Latest Videos from Insight Hub</div>
       <div class="video-grid">
-        <!-- Example of up to 15 videos. Add or remove as needed. -->
+        <!-- Example video cards -->
         <div class="video-card">
           <div class="thumb-wrap">
             <a href="https://youtu.be/2RSS5y8r01E" target="_blank">
@@ -531,18 +601,21 @@
     </div>
     <!-- Gallery Content -->
     <div class="tab-content" id="gallery-content" style="display:none;">
-      <div class="section-title">🎨 Gallery: Iconic Midnight Roboters Art</div>
+      <div class="section-title">🤖 Gallery: Robots & People Holding Hands</div>
       <div class="gallery-grid">
-        <!-- You can update or add new gallery cards here later -->
         <div class="gallery-card">
-          <img src="8e557e9f-00c1-4007-96a7-b7d3cde7c387.png" alt="Midnight Marauders">
-          <div class="caption">Midnight Marauders: AI, Brook & Boobers</div>
+          <img src="robots-holding-hands-1.jpg" alt="Robots Holding Hands 1">
+          <div class="caption">Robots Holding Hands in the City</div>
         </div>
         <div class="gallery-card">
-          <img src="ChatGPT Image May 20, 2025, 02_41_07 PM.png" alt="Aaron's Insight Hub">
-          <div class="caption">Aaron's Insight Hub: AI, Advocacy & Evidence LIVE!</div>
+          <img src="robots-holding-hands-2.jpg" alt="Robots Holding Hands 2">
+          <div class="caption">Unity: Two Robots and a Human Hand in Hand</div>
         </div>
-        <!-- Add more images/cards as you wish -->
+        <div class="gallery-card">
+          <img src="people-robots-friendship.jpg" alt="People and Robot Friendship">
+          <div class="caption">Human and Robot Friendship</div>
+        </div>
+        <!-- Add more cards as you update your gallery -->
       </div>
     </div>
   </div>
