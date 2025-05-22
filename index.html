@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Midnight Roboters: Gallery & Insight Hub</title>
+  <title>Midnight Roboters: Gallery & Inventions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -39,7 +39,7 @@
       border-bottom: 2px solid transparent;
       transition: border-bottom 0.2s, color 0.2s;
     }
-    .nav-menu a:hover {
+    .nav-menu a.active, .nav-menu a:hover {
       color: #0078d4;
       border-bottom: 2px solid #0078d4;
     }
@@ -96,236 +96,168 @@
       text-align: center;
       margin-bottom: 4px;
     }
-    /* YouTube Content Section */
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 32px;
-      margin-bottom: 40px;
+    /* Tabbed Section */
+    .tabs { display: flex; margin: 40px 0 0 0;}
+    .tab-btn {
+      background: #f8f9fa;
+      border: 1px solid #e2e6ea;
+      color: #444; font-size: 1.12rem; font-weight: 500;
+      padding: 12px 24px; cursor: pointer;
+      margin-right: 12px; border-radius: 10px 10px 0 0;
+      transition: background 0.15s, color 0.15s;
+      outline: none;
     }
-    .video-card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-      padding: 0 0 18px 0;
-      display: flex;
-      flex-direction: column;
-      transition: box-shadow 0.18s;
-      min-height: 350px;
-    }
-    .video-card .thumb-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: #eaeaea;
-      border-radius: 10px 10px 0 0;
-      overflow: hidden;
-    }
-    .video-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 10px 10px 0 0;
-    }
-    .video-card .play-btn {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      width: 60px; height: 60px;
-      background: rgba(0,0,0,0.45);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .video-card .play-btn::before {
-      content: '';
-      display: block;
-      width: 0; height: 0;
-      border-left: 24px solid #fff;
-      border-top: 16px solid transparent;
-      border-bottom: 16px solid transparent;
-    }
-    .video-card .caption {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #202124;
-      margin: 12px 16px 5px 16px;
-    }
-    .video-card .meta {
-      color: #555;
-      font-size: 0.98rem;
-      margin: 0 16px 0 16px;
-    }
-    .video-card .desc {
-      color: #888;
-      font-size: 0.97rem;
-      margin: 7px 16px 0 16px;
-      min-height: 32px;
-    }
-    .video-card .stats {
-      color: #0078d4;
-      font-size: 0.98rem;
-      margin: 7px 16px 0 16px;
-    }
-    .video-card .yt-link {
-      margin: 12px 16px 0 16px;
-      color: #c00;
-      font-weight: bold;
-      text-decoration: none;
-      display: inline-block;
-    }
+    .tab-btn.active, .tab-btn:hover { background: #fff; color: #0078d4; border-bottom: 2px solid #0078d4;}
+    .tab-content { background: #fff; border-radius:0 0 12px 12px; box-shadow:0 2px 10px rgba(0,0,0,0.08); padding:38px 32px 32px 32px; min-height:350px;}
+    .whitepaper-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:30px;}
+    .whitepaper-card { background:#f9f9fa; border-radius:8px; box-shadow:0 1px 7px rgba(0,0,0,0.04); padding:24px 20px 18px 20px;}
+    .whitepaper-card h3 {margin-top:0; color:#0078d4;}
+    .whitepaper-card p {color:#222; margin:12px 0 0 0;}
+    .whitepaper-card a { color:#c00; text-decoration:none; font-weight:600;}
+    .whitepaper-card a:hover {text-decoration:underline;}
+    /* Video grid and footer unchanged... */
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px; margin-bottom: 40px;}
+    .video-card {background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); padding: 0 0 18px 0; display: flex; flex-direction: column; transition: box-shadow 0.18s; min-height: 350px;}
+    .video-card .thumb-wrap { position: relative; width: 100%; aspect-ratio: 16/9; background: #eaeaea; border-radius: 10px 10px 0 0; overflow: hidden;}
+    .video-card img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px 10px 0 0;}
+    .video-card .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 60px; height: 60px; background: rgba(0,0,0,0.45); border-radius: 50%; display: flex; align-items: center; justify-content: center;}
+    .video-card .play-btn::before { content: ''; display: block; width: 0; height: 0; border-left: 24px solid #fff; border-top: 16px solid transparent; border-bottom: 16px solid transparent;}
+    .video-card .caption { font-size: 1.1rem; font-weight: 600; color: #202124; margin: 12px 16px 5px 16px;}
+    .video-card .meta { color: #555; font-size: 0.98rem; margin: 0 16px 0 16px;}
+    .video-card .desc { color: #888; font-size: 0.97rem; margin: 7px 16px 0 16px; min-height: 32px;}
+    .video-card .stats { color: #0078d4; font-size: 0.98rem; margin: 7px 16px 0 16px;}
+    .video-card .yt-link { margin: 12px 16px 0 16px; color: #c00; font-weight: bold; text-decoration: none; display: inline-block;}
     .video-card .yt-link:hover { text-decoration: underline; }
-    @media (max-width: 900px) {
-      .headline { padding: 18px 8px 14px 8px; flex-direction: column; gap:14px;}
-      .headline img { width: 120px;}
-    }
-    @media (max-width: 800px) {
-      .main-content { padding: 0 2vw; }
-      .gallery-grid, .video-grid { grid-template-columns: 1fr; }
-    }
-    footer {
-      text-align: center; color: #aaa; font-size: 1rem;
-      padding: 28px 0 20px 0; background: #fff; margin-top: 38px;
-    }
+    @media (max-width: 900px) {.headline { padding: 18px 8px 14px 8px; flex-direction: column; gap:14px;} .headline img { width: 120px;}}
+    @media (max-width: 800px) {.main-content { padding: 0 2vw; } .gallery-grid, .video-grid { grid-template-columns: 1fr; } .whitepaper-list{grid-template-columns:1fr;}}
+    footer { text-align: center; color: #aaa; font-size: 1rem; padding: 28px 0 20px 0; background: #fff; margin-top: 38px;}
   </style>
+  <script>
+    // Tab logic
+    function showTab(tab) {
+      document.getElementById('gallery-content').style.display = (tab === 'gallery') ? 'block' : 'none';
+      document.getElementById('videos-content').style.display = (tab === 'videos') ? 'block' : 'none';
+      document.getElementById('inventions-content').style.display = (tab === 'inventions') ? 'block' : 'none';
+      document.getElementById('gallery-btn').classList.toggle('active', tab === 'gallery');
+      document.getElementById('videos-btn').classList.toggle('active', tab === 'videos');
+      document.getElementById('inventions-btn').classList.toggle('active', tab === 'inventions');
+      window.location.hash = tab;
+    }
+    window.onload = function() {
+      var hash = window.location.hash.replace('#','');
+      if(hash && ['gallery','videos','inventions'].includes(hash)) showTab(hash);
+      else showTab('gallery');
+    };
+  </script>
 </head>
 <body>
   <nav class="top-nav">
     <div class="msn-logo">Midnight Roboters</div>
     <div class="nav-menu">
-      <a href="#">Home</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#videos">Videos</a>
-      <a href="#">Contact</a>
+      <a id="gallery-btn" href="javascript:void(0)" onclick="showTab('gallery')">Gallery</a>
+      <a id="videos-btn" href="javascript:void(0)" onclick="showTab('videos')">Videos</a>
+      <a id="inventions-btn" href="javascript:void(0)" onclick="showTab('inventions')">INVENTIONS</a>
     </div>
   </nav>
   <div class="main-content">
-    <!-- Headline Banner -->
     <section class="headline">
       <img src="midnight roboters.png" alt="Midnight Roboters Neon Skyline">
       <div class="headline-content">
-        <h1>Midnight Roboters: Art, AI & Insight Hub</h1>
-        <p>A showcase of AI, art, evidence, and real stories—where robots, humans, and pets all belong. Scroll for the full gallery and watch our latest videos!</p>
+        <h1>Midnight Roboters: Art, AI & Inventions Hub</h1>
+        <p>A showcase of AI, art, evidence, and real inventions—where robots, humans, and pets all belong. Choose a tab to explore!</p>
       </div>
     </section>
-    <!-- Gallery Section -->
-    <div class="section-title" id="gallery">🎨 Gallery: Iconic Midnight Roboters Art</div>
-    <div class="gallery-grid">
-      <div class="gallery-card">
-        <img src="8e557e9f-00c1-4007-96a7-b7d3cde7c387.png" alt="Midnight Marauders">
-        <div class="caption">Midnight Marauders: AI, Brook & Boobers</div>
-      </div>
-      <div class="gallery-card">
-        <img src="ChatGPT Image May 20, 2025, 02_41_07 PM.png" alt="Aaron's Insight Hub">
-        <div class="caption">Aaron's Insight Hub: AI, Advocacy & Evidence LIVE!</div>
-      </div>
-      <div class="gallery-card">
-        <img src="love candy.png" alt="We ALL Love Candy">
-        <div class="caption">We ALL Love Candy - Group Portrait</div>
-      </div>
-      <div class="gallery-card">
-        <img src="midnight all full cartoon.png" alt="Full Cartoon">
-        <div class="caption">Aaron's Insight Hub: Full Cartoon</div>
-      </div>
-      <div class="gallery-card">
-        <img src="mighinght mroders whitefbd144e4-b93d-4c73-aa55-14c1999e3377.png" alt="Midnight Mroders White">
-        <div class="caption">Midnight Roboters: Neon Faces (White BG)</div>
-      </div>
-      <div class="gallery-card">
-        <img src="Musical Moment with Colorful Characters.png" alt="Musical Moment">
-        <div class="caption">Musical Moment with Colorful Characters</div>
-      </div>
-      <div class="gallery-card">
-        <img src="WEALL LOVE CANDE.png" alt="We All Love Cande">
-        <div class="caption">We ALL Love Cande: Candy Crew Special</div>
-      </div>
-      <div class="gallery-card">
-        <img src="cec6254a-4c3f-41e3-93b1-afaeba7d1a8f.png" alt="NORM!!!">
-        <div class="caption">NORM!!!</div>
+    <!-- Tabbed content -->
+    <div class="tabs"></div>
+    <!-- Gallery Content -->
+    <div class="tab-content" id="gallery-content">
+      <div class="section-title">🎨 Gallery: Iconic Midnight Roboters Art</div>
+      <div class="gallery-grid">
+        <div class="gallery-card">
+          <img src="8e557e9f-00c1-4007-96a7-b7d3cde7c387.png" alt="Midnight Marauders">
+          <div class="caption">Midnight Marauders: AI, Brook & Boobers</div>
+        </div>
+        <div class="gallery-card">
+          <img src="ChatGPT Image May 20, 2025, 02_41_07 PM.png" alt="Aaron's Insight Hub">
+          <div class="caption">Aaron's Insight Hub: AI, Advocacy & Evidence LIVE!</div>
+        </div>
+        <div class="gallery-card">
+          <img src="love candy.png" alt="We ALL Love Candy">
+          <div class="caption">We ALL Love Candy - Group Portrait</div>
+        </div>
+        <div class="gallery-card">
+          <img src="midnight all full cartoon.png" alt="Full Cartoon">
+          <div class="caption">Aaron's Insight Hub: Full Cartoon</div>
+        </div>
+        <div class="gallery-card">
+          <img src="mighinght mroders whitefbd144e4-b93d-4c73-aa55-14c1999e3377.png" alt="Midnight Mroders White">
+          <div class="caption">Midnight Roboters: Neon Faces (White BG)</div>
+        </div>
+        <div class="gallery-card">
+          <img src="Musical Moment with Colorful Characters.png" alt="Musical Moment">
+          <div class="caption">Musical Moment with Colorful Characters</div>
+        </div>
+        <div class="gallery-card">
+          <img src="WEALL LOVE CANDE.png" alt="We All Love Cande">
+          <div class="caption">We ALL Love Cande: Candy Crew Special</div>
+        </div>
+        <div class="gallery-card">
+          <img src="cec6254a-4c3f-41e3-93b1-afaeba7d1a8f.png" alt="NORM!!!">
+          <div class="caption">NORM!!!</div>
+        </div>
       </div>
     </div>
-    <!-- Video Section -->
-    <div class="section-title" id="videos">▶️ Latest Videos from Insight Hub</div>
-    <div class="video-grid">
-      <!-- Replace the 'VIDEO_ID' in the src with the actual YouTube video ID for an auto-generated thumbnail -->
-      <div class="video-card">
-        <div class="thumb-wrap">
-          <a href="https://youtu.be/2RSS5y8r01E" target="_blank">
-            <img src="https://img.youtube.com/vi/2RSS5y8r01E/hqdefault.jpg" alt="Artificial Intelligence, Grace, Empathy, and a Little Bit of What the?">
-            <span class="play-btn"></span>
-          </a>
+    <!-- Videos Content -->
+    <div class="tab-content" id="videos-content" style="display:none;">
+      <div class="section-title">▶️ Latest Videos from Insight Hub</div>
+      <div class="video-grid">
+        <!-- Repeat video-card for each link, update thumbnail/ID as needed -->
+        <div class="video-card">
+          <div class="thumb-wrap">
+            <a href="https://youtu.be/2RSS5y8r01E" target="_blank">
+              <img src="https://img.youtube.com/vi/2RSS5y8r01E/hqdefault.jpg" alt="Artificial Intelligence, Grace, Empathy, and a Little Bit of What the?">
+              <span class="play-btn"></span>
+            </a>
+          </div>
+          <div class="caption">Artificial Intelligence, Grace, Empathy, and a Little Bit of What the?</div>
+          <div class="meta">Public • May 20, 2025</div>
+          <div class="desc">Whether you're looking for guidance on technology, emotional healing, legal truth-telling, or a fresh perspective on life's messiest questions, you'll...</div>
+          <div class="stats">36 views • 1 comment</div>
+          <a class="yt-link" href="https://youtu.be/2RSS5y8r01E" target="_blank">Watch on YouTube</a>
         </div>
-        <div class="caption">Artificial Intelligence, Grace, Empathy, and a Little Bit of What the?</div>
-        <div class="meta">Public • May 20, 2025</div>
-        <div class="desc">Whether you're looking for guidance on technology, emotional healing, legal truth-telling, or a fresh perspective on life's messiest questions, you'll...</div>
-        <div class="stats">36 views • 1 comment</div>
-        <a class="yt-link" href="https://youtu.be/2RSS5y8r01E" target="_blank">Watch on YouTube</a>
+        <!-- Add more video cards as before using your working links -->
       </div>
-      <div class="video-card">
-        <div class="thumb-wrap">
-          <a href="https://youtu.be/oXBoVl5TMmg" target="_blank">
-            <img src="https://img.youtube.com/vi/oXBoVl5TMmg/hqdefault.jpg" alt="Midnight Roboters: Where Night Meets Machine">
-            <span class="play-btn"></span>
-          </a>
+    </div>
+    <!-- INVENTIONS Content -->
+    <div class="tab-content" id="inventions-content" style="display:none;">
+      <div class="section-title">🚀 INVENTIONS & WHITEPAPERS</div>
+      <div class="whitepaper-list">
+        <div class="whitepaper-card">
+          <h3>The Intelligent Human</h3>
+          <p>AI-augmented cognition and legal evidence management platform. Organize, annotate, and present legal evidence with AI-powered insight and narrative control.</p>
+          <a href="#" onclick="alert('Full whitepaper coming soon!')">Read Executive Summary</a>
         </div>
-        <div class="caption">Midnight Roboters: Where Night Meets Machine</div>
-        <div class="meta">Public • May 19, 2025</div>
-        <div class="desc">Step into the world of Midnight Roboters—a space where the quiet intensity of midnight collides with the limitless potential of technology...</div>
-        <div class="stats">23 views • 2 comments</div>
-        <a class="yt-link" href="https://youtu.be/oXBoVl5TMmg" target="_blank">Watch on YouTube</a>
-      </div>
-      <div class="video-card">
-        <div class="thumb-wrap">
-          <a href="https://youtu.be/CxZl8WhgGuY" target="_blank">
-            <img src="https://img.youtube.com/vi/CxZl8WhgGuY/hqdefault.jpg" alt="How AI NARA Changed My Life">
-            <span class="play-btn"></span>
-          </a>
+        <div class="whitepaper-card">
+          <h3>MIE: Mindful Intelligent Entity</h3>
+          <p>Wearable AI companion for lifelong learning, emotional health, and real-time ethical advice. Combines safety monitoring with personalized support.</p>
+          <a href="#" onclick="alert('MIE full whitepaper will be published here soon!')">Preview</a>
         </div>
-        <div class="caption">How AI NARA - Intelligent Human have Transformed My Life: A Journey t...</div>
-        <div class="meta">Private • Apr 7, 2025</div>
-        <div class="desc">Aaron Perkins shares his transformative journey with AI NARA...</div>
-        <div class="stats">10 views • 0 comments</div>
-        <a class="yt-link" href="https://youtu.be/CxZl8WhgGuY" target="_blank">Watch on YouTube</a>
-      </div>
-      <div class="video-card">
-        <div class="thumb-wrap">
-          <a href="https://youtube.com/live/Yc3sHevYb4A?feature=share" target="_blank">
-            <img src="https://img.youtube.com/vi/Yc3sHevYb4A/hqdefault.jpg" alt="Live: AI Insight Stream">
-            <span class="play-btn"></span>
-          </a>
+        <div class="whitepaper-card">
+          <h3>AI-Augmented Expression Protection Law</h3>
+          <p>Legal proposal for protecting AI-assisted human expression online. Ensures content isn't dismissed or discriminated against solely for being AI-enabled.</p>
+          <a href="#" onclick="alert('Coming soon: Draft law and public call to action.')">Learn More</a>
         </div>
-        <div class="caption">AI Insight Hub – Live</div>
-        <div class="meta">Public • Recent</div>
-        <div class="desc">Experience the energy of our live community and latest breakthroughs in AI, advocacy, and evidence.</div>
-        <div class="stats"></div>
-        <a class="yt-link" href="https://youtube.com/live/Yc3sHevYb4A?feature=share" target="_blank">Watch on YouTube</a>
-      </div>
-      <div class="video-card">
-        <div class="thumb-wrap">
-          <a href="https://youtube.com/live/xmr7PoBqDqY?feature=share" target="_blank">
-            <img src="https://img.youtube.com/vi/xmr7PoBqDqY/hqdefault.jpg" alt="Live: AI Insight Stream">
-            <span class="play-btn"></span>
-          </a>
+        <div class="whitepaper-card">
+          <h3>User-Initiated Data Marketplace</h3>
+          <p>A decentralized data exchange where users, not platforms, control and monetize their data streams. Empowers true user agency in the digital economy.</p>
+          <a href="#" onclick="alert('Executive summary available soon!')">Preview</a>
         </div>
-        <div class="caption">AI & Evidence – Stream Session</div>
-        <div class="meta">Public • Recent</div>
-        <div class="desc"></div>
-        <div class="stats"></div>
-        <a class="yt-link" href="https://youtube.com/live/xmr7PoBqDqY?feature=share" target="_blank">Watch on YouTube</a>
+        <div class="whitepaper-card">
+          <h3>Extended Mind Thesis — AI Era</h3>
+          <p>Expanding Clark & Chalmers' theory for a world with ubiquitous AI, cloud memory, and "Intelligent Human" collaboration. Foundation for MIE and legal/evidence innovation.</p>
+          <a href="#" onclick="alert('Academic version will be published soon!')">Academic Preview</a>
+        </div>
       </div>
-      <!-- Continue this pattern for your remaining video links... -->
-      <!--
-      Next copy-paste block:
-      https://youtube.com/live/daJwdt2k7Pg?feature=share
-      https://youtube.com/live/QiRvC1R4Zsw?feature=share
-      https://youtube.com/live/dYUpiVEdQfs?feature=share
-      https://youtube.com/live/z7PHocw09g0?feature=share
-      https://youtube.com/live/d1JyNQDQpzA?feature=share
-      https://youtube.com/live/lcIbQq2jXaU?feature=share
-      https://youtube.com/live/MAz6xe3I1t0?feature=share
-      https://youtube.com/live/cal7ZmMDWfg?feature=share
-      https://youtube.com/live/lUUTa8RIOB8?feature=share
-      https://www.youtube.com/live/liBXHD99U3c
-      -->
     </div>
   </div>
   <footer>
