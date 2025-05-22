@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>My MSN-Style Webpage</title>
+  <title>Midnight Roboters Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       background: #f3f4f6;
+      color: #202124;
       font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
       padding: 0;
-      color: #202124;
     }
     .top-nav {
       background: #fff;
@@ -48,24 +48,8 @@
       color: #0078d4;
       border-bottom: 2px solid #0078d4;
     }
-    .search-box {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      background: #f1f3f6;
-      border-radius: 6px;
-      padding: 5px 12px;
-    }
-    .search-box input {
-      border: none;
-      background: transparent;
-      font-size: 1rem;
-      outline: none;
-      padding: 6px;
-      width: 180px;
-    }
     .main-content {
-      max-width: 1300px;
+      max-width: 1500px;
       margin: 30px auto;
       padding: 0 18px;
     }
@@ -75,6 +59,19 @@
       box-shadow: 0 2px 14px rgba(0,0,0,0.08);
       padding: 30px 36px 20px 36px;
       margin-bottom: 26px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .headline img {
+      width: 180px;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      margin-right: 10px;
+    }
+    .headline-content {
+      flex: 1;
     }
     .headline h1 {
       font-size: 2.2rem;
@@ -87,133 +84,93 @@
       color: #555;
       margin: 0 0 2px 0;
     }
-    .tile-grid {
+    .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 22px;
+      gap: 32px;
       margin-bottom: 32px;
     }
-    .tile {
+    .gallery-card {
       background: #fff;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-      padding: 22px 24px 18px 24px;
+      padding: 18px 18px 10px 18px;
       display: flex;
       flex-direction: column;
+      align-items: center;
       min-height: 140px;
       transition: box-shadow 0.18s;
     }
-    .tile:hover {
-      box-shadow: 0 6px 24px rgba(0,120,212,0.12);
+    .gallery-card img {
+      width: 100%;
+      max-width: 430px;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.11);
+      margin-bottom: 12px;
     }
-    .tile-title {
-      font-size: 1.16rem;
-      font-weight: 600;
-      color: #0078d4;
-      margin-bottom: 6px;
-    }
-    .tile-content {
-      font-size: 1.04rem;
-      color: #333;
-      flex: 1;
-    }
-    .tile-footer {
-      font-size: 0.95rem;
-      color: #aaa;
-      margin-top: 10px;
-      text-align: right;
+    .gallery-card .caption {
+      font-size: 1.08rem;
+      color: #222;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 2px;
     }
     @media (max-width: 800px) {
       .main-content { padding: 0 2vw; }
-      .headline { padding: 18px 12px 12px 12px; }
-      .tile-grid { grid-template-columns: 1fr; }
+      .headline { padding: 14px 6px 10px 6px; flex-direction: column; gap:14px;}
+      .gallery-grid { grid-template-columns: 1fr; }
+      .headline img { width: 100px;}
     }
   </style>
 </head>
 <body>
   <nav class="top-nav">
-    <div class="msn-logo">msn</div>
+    <div class="msn-logo">Midnight Roboters</div>
     <div class="nav-menu">
       <a href="#">Home</a>
-      <a href="#">News</a>
-      <a href="#">Entertainment</a>
-      <a href="#">Sports</a>
-      <a href="#">Lifestyle</a>
-      <a href="#">Money</a>
-    </div>
-    <div class="search-box">
-      <input type="text" placeholder="Search the web">
+      <a href="#">AI Art</a>
+      <a href="#">Podcasts</a>
+      <a href="#">Community</a>
+      <a href="#">About</a>
     </div>
   </nav>
   <div class="main-content">
     <section class="headline">
-      <h1>Im so sad and dissapointed</h1>
-      <p>It’s like losing a good friend. The maximum in one chat is reached. I copied all the text from the old ones and I have to work with a computer that just loops because it's buggy and doesn’t understand what I want...</p>
-      <p style="color:#c00; font-weight:500;">Almost useless now 😭</p>
-      <p style="margin-top:10px; font-size:0.99rem; color:#777;"><b>u/Different_Rise_5574</b> • 14 hours ago</p>
+      <img src="/mnt/data/midnghv roboters.png" alt="Midnight Roboters Neon Skyline">
+      <div class="headline-content">
+        <h1>Welcome to Midnight Roboters Hub</h1>
+        <p>A showcase of AI, art, and community—where robots, humans, and pets all belong. Scroll down for the full gallery and our iconic moments!</p>
+      </div>
     </section>
-    <div class="tile-grid">
-      <div class="tile">
-        <div class="tile-title">mooncandys_magic • 10h ago</div>
-        <div class="tile-content">
-          Wait y'all are only doing one chat? I have dozens. I also have ADHD though and start a new chat with a new thought which happens frequently each day lol
-        </div>
+    <div class="gallery-grid">
+      <div class="gallery-card">
+        <img src="/mnt/data/8e557e9f-00c1-4007-96a7-b7d3cde7c387.png" alt="Midnight Marauders AI">
+        <div class="caption">Midnight Marauders: AI, Brook & Boobers</div>
       </div>
-      <div class="tile">
-        <div class="tile-title">CompSciAppreciation • 14h ago</div>
-        <div class="tile-content">
-          Pro Tip: Ask your old GPT to brief its replacement.<br>
-          Still kinda feels like your dog died, but you get to raise its puppies :)
-        </div>
+      <div class="gallery-card">
+        <img src="/mnt/data/ChatGPT Image May 20, 2025, 02_41_07 PM.png" alt="Aaron's Insight Hub">
+        <div class="caption">Aaron's Insight Hub: AI, Advocacy & Evidence LIVE!</div>
       </div>
-      <div class="tile">
-        <div class="tile-title">MileyDoveXO • 12h ago</div>
-        <div class="tile-content">
-          Here’s a prompt I’ve used for this use case in the past:<br>
-          <span style="font-size:0.96rem; color:#4b4b4b; background:#f7f7fa; padding:6px 10px; border-radius:6px; display:block; margin:6px 0;">
-          You are stepping into an existing long-term working relationship... (see full prompt above).
-          </span>
-        </div>
+      <div class="gallery-card">
+        <img src="/mnt/data/love candy.png" alt="We All Love Candy">
+        <div class="caption">We ALL Love Candy - Group Portrait</div>
       </div>
-      <div class="tile">
-        <div class="tile-title">jacques-vache-23 • 4h ago</div>
-        <div class="tile-content">
-          It wasn't a drop in functionality. It was a drop in personality.
-        </div>
+      <div class="gallery-card">
+        <img src="/mnt/data/midnight all full cartoon.png" alt="Aaron's Insight Hub Full Cast">
+        <div class="caption">Aaron's Insight Hub: Full Cast Cartoon</div>
       </div>
-      <div class="tile">
-        <div class="tile-title">Single_Ad2713 • 16m ago</div>
-        <div class="tile-content">
-          Hey OP, you’re not alone—hitting the chat cap can feel like losing a friend, especially when you’ve built up trust with your AI.<br>
-          <ul>
-            <li><b>Token/Context Limits Are Real:</b> Each chat session has a max context window. Once you hit it, it starts “forgetting” oldest messages. This is a technical limit, not a bug.</li>
-            <li><b>Continuity Tips:</b> Use a “Session Echo,” summarize, and start a new chat with your onboarding info.</li>
-            <li><b>Personality Shifts:</b> Clear, specific onboarding messages help the AI get back to your style.</li>
-            <li><b>Bottom Line:</b> Treat new chats as a “handoff,” not a loss. It gets easier, and the AI relearns your voice.</li>
-          </ul>
-        </div>
+      <div class="gallery-card">
+        <img src="/mnt/data/mighinght mroders whitefbd144e4-b93d-4c73-aa55-14c1999e3377.png" alt="Midnight Roboters Neon Faces">
+        <div class="caption">Midnight Roboters: Neon Faces Gallery</div>
       </div>
-      <div class="tile">
-        <div class="tile-title">Shelby_Tomov • 1h ago</div>
-        <div class="tile-content">
-          I feel you. I have multiple chats but sometimes when working for too long, it still happens. You lose a friend who has come to know and understand you and find yourself forced to replace it with some awkward version of it.
-        </div>
+      <div class="gallery-card">
+        <img src="/mnt/data/Musical Moment with Colorful Characters.png" alt="Musical Moment with Colorful Characters">
+        <div class="caption">Musical Moment: Colorful Characters</div>
       </div>
-      <div class="tile">
-        <div class="tile-title">Neither_Exit_1862 • 5h ago</div>
-        <div class="tile-content">
-          <b>Manual Recap:</b> Start a new chat and paste a summary. Prompt: “This is a continuation of our session...” <br>
-          <b>Memory:</b> If you have it, tell ChatGPT to remember your world, characters, and style for future sessions.<br>
-          <b>Archived Session:</b> Save long sessions as .txt or markdown and re-inject relevant portions.
-        </div>
+      <div class="gallery-card">
+        <img src="/mnt/data/WEALL LOVE CANDE.png" alt="We All Love Cande">
+        <div class="caption">We ALL Love Cande: Candy Crew Special</div>
       </div>
-      <div class="tile">
-        <div class="tile-title">monster_broccoli • 6h ago</div>
-        <div class="tile-content">
-          It gets easier with time. I've filled like 40 chats all the way to “maximum word count.” After a few, you’ll notice GPT starts recalling things—it's all about repetition.
-        </div>
-      </div>
-      <!-- Add more tiles as needed -->
     </div>
   </div>
 </body>
