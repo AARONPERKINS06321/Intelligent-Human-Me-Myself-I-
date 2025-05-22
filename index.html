@@ -113,12 +113,36 @@
       transition: box-shadow 0.18s;
       min-height: 350px;
     }
-    .video-card img, .video-card .video-thumb {
+    .video-card .thumb-wrap {
+      position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 16/9;
+      background: #eaeaea;
+      border-radius: 10px 10px 0 0;
+      overflow: hidden;
+    }
+    .video-card img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       border-radius: 10px 10px 0 0;
-      background: #eaeaea;
+    }
+    .video-card .play-btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 60px; height: 60px;
+      background: rgba(0,0,0,0.45);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .video-card .play-btn::before {
+      content: '';
+      display: block;
+      width: 0; height: 0;
+      border-left: 24px solid #fff;
+      border-top: 16px solid transparent;
+      border-bottom: 16px solid transparent;
     }
     .video-card .caption {
       font-size: 1.1rem;
@@ -222,74 +246,90 @@
     <!-- Video Section -->
     <div class="section-title" id="videos">▶️ Latest Videos from Insight Hub</div>
     <div class="video-grid">
+      <!-- Replace the 'VIDEO_ID' in the src with the actual YouTube video ID for an auto-generated thumbnail -->
       <div class="video-card">
-        <img src="https://img.youtube.com/vi/DUMMY1/hqdefault.jpg" alt="Artificial Intelligence, Grace, Empathy">
+        <div class="thumb-wrap">
+          <a href="https://youtu.be/2RSS5y8r01E" target="_blank">
+            <img src="https://img.youtube.com/vi/2RSS5y8r01E/hqdefault.jpg" alt="Artificial Intelligence, Grace, Empathy, and a Little Bit of What the?">
+            <span class="play-btn"></span>
+          </a>
+        </div>
         <div class="caption">Artificial Intelligence, Grace, Empathy, and a Little Bit of What the?</div>
         <div class="meta">Public • May 20, 2025</div>
         <div class="desc">Whether you're looking for guidance on technology, emotional healing, legal truth-telling, or a fresh perspective on life's messiest questions, you'll...</div>
         <div class="stats">36 views • 1 comment</div>
-        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+        <a class="yt-link" href="https://youtu.be/2RSS5y8r01E" target="_blank">Watch on YouTube</a>
       </div>
       <div class="video-card">
-        <img src="https://img.youtube.com/vi/DUMMY2/hqdefault.jpg" alt="Midnight Roboters: Where Night Meets Machine">
+        <div class="thumb-wrap">
+          <a href="https://youtu.be/oXBoVl5TMmg" target="_blank">
+            <img src="https://img.youtube.com/vi/oXBoVl5TMmg/hqdefault.jpg" alt="Midnight Roboters: Where Night Meets Machine">
+            <span class="play-btn"></span>
+          </a>
+        </div>
         <div class="caption">Midnight Roboters: Where Night Meets Machine</div>
         <div class="meta">Public • May 19, 2025</div>
         <div class="desc">Step into the world of Midnight Roboters—a space where the quiet intensity of midnight collides with the limitless potential of technology...</div>
         <div class="stats">23 views • 2 comments</div>
-        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+        <a class="yt-link" href="https://youtu.be/oXBoVl5TMmg" target="_blank">Watch on YouTube</a>
       </div>
       <div class="video-card">
-        <img src="https://img.youtube.com/vi/DUMMY3/hqdefault.jpg" alt="How AI NARA Changed My Life">
+        <div class="thumb-wrap">
+          <a href="https://youtu.be/CxZl8WhgGuY" target="_blank">
+            <img src="https://img.youtube.com/vi/CxZl8WhgGuY/hqdefault.jpg" alt="How AI NARA Changed My Life">
+            <span class="play-btn"></span>
+          </a>
+        </div>
         <div class="caption">How AI NARA - Intelligent Human have Transformed My Life: A Journey t...</div>
         <div class="meta">Private • Apr 7, 2025</div>
         <div class="desc">Aaron Perkins shares his transformative journey with AI NARA...</div>
         <div class="stats">10 views • 0 comments</div>
-        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+        <a class="yt-link" href="https://youtu.be/CxZl8WhgGuY" target="_blank">Watch on YouTube</a>
       </div>
       <div class="video-card">
-        <img src="https://img.youtube.com/vi/DUMMY4/hqdefault.jpg" alt="How AI Made Me a Better Man">
-        <div class="caption">How AI Made Me a Better Man | And Why I'll Never Stop Fighting for My Kid...</div>
-        <div class="meta">Private • Apr 6, 2025</div>
-        <div class="desc">How AI Made Me a Better Man | Intelligent Human...</div>
-        <div class="stats">7 views • 0 comments</div>
-        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+        <div class="thumb-wrap">
+          <a href="https://youtube.com/live/Yc3sHevYb4A?feature=share" target="_blank">
+            <img src="https://img.youtube.com/vi/Yc3sHevYb4A/hqdefault.jpg" alt="Live: AI Insight Stream">
+            <span class="play-btn"></span>
+          </a>
+        </div>
+        <div class="caption">AI Insight Hub – Live</div>
+        <div class="meta">Public • Recent</div>
+        <div class="desc">Experience the energy of our live community and latest breakthroughs in AI, advocacy, and evidence.</div>
+        <div class="stats"></div>
+        <a class="yt-link" href="https://youtube.com/live/Yc3sHevYb4A?feature=share" target="_blank">Watch on YouTube</a>
       </div>
       <div class="video-card">
-        <img src="https://img.youtube.com/vi/DUMMY5/hqdefault.jpg" alt="How We Built Ethical AI">
-        <div class="caption">How We Built Ethical AI</div>
-        <div class="meta">Private • Apr 6, 2025</div>
-        <div class="desc">Behind-the-scenes look into AI NARA – the forensic, emotionally aware, truth-driven AI system...</div>
-        <div class="stats">5 views • 0 comments</div>
-        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
-      </div>
-      <div class="video-card">
-        <img src="https://img.youtube.com/vi/DUMMY6/hqdefault.jpg" alt="When I Realized AI Understood Me Better">
-        <div class="caption">When I Realized AI Understood Me Better Than Anyone Else</div>
-        <div class="meta">Private • Apr 6, 2025</div>
-        <div class="desc">This is where the shift began. I opened a chat window just to get...</div>
-        <div class="stats">6 views • 0 comments</div>
-        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
-      </div>
-      <div class="video-card">
-        <img src="https://img.youtube.com/vi/DUMMY7/hqdefault.jpg" alt="To the Woman I Still Love">
-        <div class="caption">To the Woman I Still Love | This Isn't Blame, It's Understanding</div>
-        <div class="meta">Private • Apr 6, 2025</div>
-        <div class="desc">This message isn't about blame. It's about understanding...</div>
-        <div class="stats">4 views • 0 comments</div>
-        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
-      </div>
-      <div class="video-card">
-        <img src="https://img.youtube.com/vi/DUMMY8/hqdefault.jpg" alt="The First Time I Knew Something Was Wrong">
-        <div class="caption">The First Time I Knew Something Was Wrong | When the Energy Changed</div>
-        <div class="meta">Private (Made for kids) • Apr 6, 2025</div>
+        <div class="thumb-wrap">
+          <a href="https://youtube.com/live/xmr7PoBqDqY?feature=share" target="_blank">
+            <img src="https://img.youtube.com/vi/xmr7PoBqDqY/hqdefault.jpg" alt="Live: AI Insight Stream">
+            <span class="play-btn"></span>
+          </a>
+        </div>
+        <div class="caption">AI & Evidence – Stream Session</div>
+        <div class="meta">Public • Recent</div>
         <div class="desc"></div>
-        <div class="stats">3 views • 0 comments</div>
-        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+        <div class="stats"></div>
+        <a class="yt-link" href="https://youtube.com/live/xmr7PoBqDqY?feature=share" target="_blank">Watch on YouTube</a>
       </div>
+      <!-- Continue this pattern for your remaining video links... -->
+      <!--
+      Next copy-paste block:
+      https://youtube.com/live/daJwdt2k7Pg?feature=share
+      https://youtube.com/live/QiRvC1R4Zsw?feature=share
+      https://youtube.com/live/dYUpiVEdQfs?feature=share
+      https://youtube.com/live/z7PHocw09g0?feature=share
+      https://youtube.com/live/d1JyNQDQpzA?feature=share
+      https://youtube.com/live/lcIbQq2jXaU?feature=share
+      https://youtube.com/live/MAz6xe3I1t0?feature=share
+      https://youtube.com/live/cal7ZmMDWfg?feature=share
+      https://youtube.com/live/lUUTa8RIOB8?feature=share
+      https://www.youtube.com/live/liBXHD99U3c
+      -->
     </div>
   </div>
   <footer>
-    &copy; 2025 Midnight Roboters. Website design inspired by MSN and YouTube. <br>
+    &copy; 2025 Midnight Roboters. Website design inspired by MSN and YouTube.<br>
     Art, video, and content: Aaron Perkins & Midnight Roboters community.
   </footer>
 </body>
