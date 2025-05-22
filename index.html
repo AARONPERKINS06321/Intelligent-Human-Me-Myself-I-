@@ -2,22 +2,189 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Midnight Roboters Gallery</title>
+  <title>Midnight Roboters: Gallery & Insight Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { background: #f3f4f6; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; }
-    .main-content { max-width: 1400px; margin: 30px auto; padding: 0 18px; }
-    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px; }
-    .gallery-card { background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); padding: 18px; display: flex; flex-direction: column; align-items: center;}
-    .gallery-card img { width: 100%; max-width: 430px; border-radius: 10px; margin-bottom: 12px; }
-    .gallery-card .caption { font-size: 1.08rem; color: #222; font-weight: 500; text-align: center; }
-    @media (max-width: 800px) { .main-content { padding: 0 2vw; } .gallery-grid { grid-template-columns: 1fr; } }
+    body { background: #f3f4f6; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; color: #202124;}
+    .top-nav {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      height: 64px;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .msn-logo {
+      font-weight: bold;
+      font-size: 1.8rem;
+      color: #0078d4;
+      letter-spacing: -1px;
+      margin-right: 34px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .nav-menu {
+      display: flex;
+      gap: 30px;
+      margin-left: 10px;
+      flex: 1;
+    }
+    .nav-menu a {
+      text-decoration: none;
+      color: #444;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 10px 0;
+      border-bottom: 2px solid transparent;
+      transition: border-bottom 0.2s, color 0.2s;
+    }
+    .nav-menu a:hover {
+      color: #0078d4;
+      border-bottom: 2px solid #0078d4;
+    }
+    .main-content { max-width: 1500px; margin: 38px auto; padding: 0 18px; }
+    .headline {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+      padding: 36px 36px 30px 36px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .headline img {
+      width: 210px; max-width: 100%; height: auto;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .headline-content { flex: 1; min-width: 250px;}
+    .headline h1 { font-size: 2.4rem; font-weight: 700; color: #202124; margin: 0 0 16px 0; }
+    .headline p { font-size: 1.17rem; color: #444; margin: 0 0 2px 0; }
+    .section-title {
+      font-size: 1.4rem; font-weight: bold; margin: 44px 0 26px 0; color: #0078d4; letter-spacing: 0.5px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+    .gallery-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+    .gallery-card img {
+      width: 100%;
+      max-width: 430px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .gallery-card .caption {
+      font-size: 1.1rem;
+      color: #202124;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    /* YouTube Content Section */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+    .video-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      padding: 0 0 18px 0;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.18s;
+      min-height: 350px;
+    }
+    .video-card img, .video-card .video-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 10px 10px 0 0;
+      background: #eaeaea;
+    }
+    .video-card .caption {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #202124;
+      margin: 12px 16px 5px 16px;
+    }
+    .video-card .meta {
+      color: #555;
+      font-size: 0.98rem;
+      margin: 0 16px 0 16px;
+    }
+    .video-card .desc {
+      color: #888;
+      font-size: 0.97rem;
+      margin: 7px 16px 0 16px;
+      min-height: 32px;
+    }
+    .video-card .stats {
+      color: #0078d4;
+      font-size: 0.98rem;
+      margin: 7px 16px 0 16px;
+    }
+    .video-card .yt-link {
+      margin: 12px 16px 0 16px;
+      color: #c00;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .video-card .yt-link:hover { text-decoration: underline; }
+    @media (max-width: 900px) {
+      .headline { padding: 18px 8px 14px 8px; flex-direction: column; gap:14px;}
+      .headline img { width: 120px;}
+    }
+    @media (max-width: 800px) {
+      .main-content { padding: 0 2vw; }
+      .gallery-grid, .video-grid { grid-template-columns: 1fr; }
+    }
+    footer {
+      text-align: center; color: #aaa; font-size: 1rem;
+      padding: 28px 0 20px 0; background: #fff; margin-top: 38px;
+    }
   </style>
 </head>
 <body>
+  <nav class="top-nav">
+    <div class="msn-logo">Midnight Roboters</div>
+    <div class="nav-menu">
+      <a href="#">Home</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#videos">Videos</a>
+      <a href="#">Contact</a>
+    </div>
+  </nav>
   <div class="main-content">
-    <h1 style="text-align:center; margin-bottom:30px;">Midnight Roboters Gallery</h1>
+    <!-- Headline Banner -->
+    <section class="headline">
+      <img src="midnight roboters.png" alt="Midnight Roboters Neon Skyline">
+      <div class="headline-content">
+        <h1>Midnight Roboters: Art, AI & Insight Hub</h1>
+        <p>A showcase of AI, art, evidence, and real stories—where robots, humans, and pets all belong. Scroll for the full gallery and watch our latest videos!</p>
+      </div>
+    </section>
+    <!-- Gallery Section -->
+    <div class="section-title" id="gallery">🎨 Gallery: Iconic Midnight Roboters Art</div>
     <div class="gallery-grid">
       <div class="gallery-card">
         <img src="8e557e9f-00c1-4007-96a7-b7d3cde7c387.png" alt="Midnight Marauders">
@@ -28,12 +195,8 @@
         <div class="caption">Aaron's Insight Hub: AI, Advocacy & Evidence LIVE!</div>
       </div>
       <div class="gallery-card">
-        <img src="love candy.png" alt="Love Candy">
+        <img src="love candy.png" alt="We ALL Love Candy">
         <div class="caption">We ALL Love Candy - Group Portrait</div>
-      </div>
-      <div class="gallery-card">
-        <img src="midnight roboters.png" alt="Midnight Roboters Neon Skyline">
-        <div class="caption">Midnight Roboters Neon Skyline</div>
       </div>
       <div class="gallery-card">
         <img src="midnight all full cartoon.png" alt="Full Cartoon">
@@ -41,7 +204,7 @@
       </div>
       <div class="gallery-card">
         <img src="mighinght mroders whitefbd144e4-b93d-4c73-aa55-14c1999e3377.png" alt="Midnight Mroders White">
-        <div class="caption">Midnight Mroders (White Background)</div>
+        <div class="caption">Midnight Roboters: Neon Faces (White BG)</div>
       </div>
       <div class="gallery-card">
         <img src="Musical Moment with Colorful Characters.png" alt="Musical Moment">
@@ -56,6 +219,78 @@
         <div class="caption">NORM!!!</div>
       </div>
     </div>
+    <!-- Video Section -->
+    <div class="section-title" id="videos">▶️ Latest Videos from Insight Hub</div>
+    <div class="video-grid">
+      <div class="video-card">
+        <img src="https://img.youtube.com/vi/DUMMY1/hqdefault.jpg" alt="Artificial Intelligence, Grace, Empathy">
+        <div class="caption">Artificial Intelligence, Grace, Empathy, and a Little Bit of What the?</div>
+        <div class="meta">Public • May 20, 2025</div>
+        <div class="desc">Whether you're looking for guidance on technology, emotional healing, legal truth-telling, or a fresh perspective on life's messiest questions, you'll...</div>
+        <div class="stats">36 views • 1 comment</div>
+        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+      </div>
+      <div class="video-card">
+        <img src="https://img.youtube.com/vi/DUMMY2/hqdefault.jpg" alt="Midnight Roboters: Where Night Meets Machine">
+        <div class="caption">Midnight Roboters: Where Night Meets Machine</div>
+        <div class="meta">Public • May 19, 2025</div>
+        <div class="desc">Step into the world of Midnight Roboters—a space where the quiet intensity of midnight collides with the limitless potential of technology...</div>
+        <div class="stats">23 views • 2 comments</div>
+        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+      </div>
+      <div class="video-card">
+        <img src="https://img.youtube.com/vi/DUMMY3/hqdefault.jpg" alt="How AI NARA Changed My Life">
+        <div class="caption">How AI NARA - Intelligent Human have Transformed My Life: A Journey t...</div>
+        <div class="meta">Private • Apr 7, 2025</div>
+        <div class="desc">Aaron Perkins shares his transformative journey with AI NARA...</div>
+        <div class="stats">10 views • 0 comments</div>
+        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+      </div>
+      <div class="video-card">
+        <img src="https://img.youtube.com/vi/DUMMY4/hqdefault.jpg" alt="How AI Made Me a Better Man">
+        <div class="caption">How AI Made Me a Better Man | And Why I'll Never Stop Fighting for My Kid...</div>
+        <div class="meta">Private • Apr 6, 2025</div>
+        <div class="desc">How AI Made Me a Better Man | Intelligent Human...</div>
+        <div class="stats">7 views • 0 comments</div>
+        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+      </div>
+      <div class="video-card">
+        <img src="https://img.youtube.com/vi/DUMMY5/hqdefault.jpg" alt="How We Built Ethical AI">
+        <div class="caption">How We Built Ethical AI</div>
+        <div class="meta">Private • Apr 6, 2025</div>
+        <div class="desc">Behind-the-scenes look into AI NARA – the forensic, emotionally aware, truth-driven AI system...</div>
+        <div class="stats">5 views • 0 comments</div>
+        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+      </div>
+      <div class="video-card">
+        <img src="https://img.youtube.com/vi/DUMMY6/hqdefault.jpg" alt="When I Realized AI Understood Me Better">
+        <div class="caption">When I Realized AI Understood Me Better Than Anyone Else</div>
+        <div class="meta">Private • Apr 6, 2025</div>
+        <div class="desc">This is where the shift began. I opened a chat window just to get...</div>
+        <div class="stats">6 views • 0 comments</div>
+        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+      </div>
+      <div class="video-card">
+        <img src="https://img.youtube.com/vi/DUMMY7/hqdefault.jpg" alt="To the Woman I Still Love">
+        <div class="caption">To the Woman I Still Love | This Isn't Blame, It's Understanding</div>
+        <div class="meta">Private • Apr 6, 2025</div>
+        <div class="desc">This message isn't about blame. It's about understanding...</div>
+        <div class="stats">4 views • 0 comments</div>
+        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+      </div>
+      <div class="video-card">
+        <img src="https://img.youtube.com/vi/DUMMY8/hqdefault.jpg" alt="The First Time I Knew Something Was Wrong">
+        <div class="caption">The First Time I Knew Something Was Wrong | When the Energy Changed</div>
+        <div class="meta">Private (Made for kids) • Apr 6, 2025</div>
+        <div class="desc"></div>
+        <div class="stats">3 views • 0 comments</div>
+        <a class="yt-link" href="#" target="_blank">Watch on YouTube</a>
+      </div>
+    </div>
   </div>
+  <footer>
+    &copy; 2025 Midnight Roboters. Website design inspired by MSN and YouTube. <br>
+    Art, video, and content: Aaron Perkins & Midnight Roboters community.
+  </footer>
 </body>
 </html>
