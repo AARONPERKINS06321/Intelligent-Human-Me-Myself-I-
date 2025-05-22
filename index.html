@@ -96,7 +96,6 @@
       text-align: center;
       margin-bottom: 4px;
     }
-    /* Tabbed Section */
     .tabs { display: flex; margin: 40px 0 0 0;}
     .tab-btn {
       background: #f8f9fa;
@@ -115,7 +114,6 @@
     .whitepaper-card p {color:#222; margin:12px 0 0 0;}
     .whitepaper-card a { color:#c00; text-decoration:none; font-weight:600;}
     .whitepaper-card a:hover {text-decoration:underline;}
-    /* Accordion */
     .accordion {
       background: #0078d4;
       color: #fff;
@@ -183,7 +181,6 @@
     .comment-form button:hover { background: #005fa3; }
   </style>
   <script>
-    // Tab logic
     function showTab(tab) {
       document.getElementById('gallery-content').style.display = (tab === 'gallery') ? 'block' : 'none';
       document.getElementById('videos-content').style.display = (tab === 'videos') ? 'block' : 'none';
@@ -198,7 +195,7 @@
       if(hash && ['gallery','videos','inventions'].includes(hash)) showTab(hash);
       else showTab('gallery');
     };
-    // Accordion logic for whitepapers and comment rendering
+    // Comment logic
     function renderComments(sectionId) {
       const key = 'comments-' + sectionId;
       const list = JSON.parse(localStorage.getItem(key) || "[]");
@@ -235,9 +232,8 @@
       return false;
     }
     document.addEventListener("DOMContentLoaded", function() {
-      // Render comments for each whitepaper/invention
-      ['mie', 'mei', 'wei', 'ainara', 'intelligenthuman'].forEach(renderComments);
-      // Accordion
+      ['mie', 'mei', 'marketplace', 'ainara', 'intelligenthuman'].forEach(renderComments);
+      // Accordion logic
       var acc = document.getElementsByClassName("accordion");
       for (var i = 0; i < acc.length; i++) {
         acc[i].onclick = function(){
@@ -397,7 +393,7 @@
               <li><b>Emotion Mapping</b>: Track, annotate, and reflect on emotional patterns and triggers in conversations and daily life.</li>
               <li><b>AI Dialog Coach</b>: AI simulates healthy and unhealthy communication styles, providing live feedback and modeling best practices for de-escalation, apology, and repair.</li>
               <li><b>Trauma-Informed Mode</b>: Tailors interactions for users with known trauma backgrounds, integrating safety, affirmation, and recovery pacing.</li>
-              <li><b>Integration with MIE/WEI</b>: Can share data and patterns (with permission) with MIE or WEI to support holistic well-being and safety.</li>
+              <li><b>Integration with MIE/Marketplace</b>: Can share data and patterns (with permission) with MIE or Marketplace to support holistic well-being and safety.</li>
             </ul>
             <h4>Why MEI Matters</h4>
             <p>Most conflict—personal, legal, social—starts with misunderstood emotion. MEI’s mission is to make healthy emotional expression teachable, practical, and accessible to everyone, everywhere.</p>
@@ -405,29 +401,58 @@
             <div class="comment-section" id="comments-mei"></div>
           </div>
         </div>
-        <!-- WEI Whitepaper -->
-        <div class="whitepaper-card" data-id="wei">
-          <button class="accordion"><strong>WEI: Wellness Entity Intelligence (Whitepaper)</strong></button>
+        <!-- User-Initiated Data Marketplace Whitepaper -->
+        <div class="whitepaper-card" data-id="marketplace">
+          <button class="accordion"><strong>User-Initiated Data Marketplace (Whitepaper)</strong></button>
           <div class="panel">
             <h4>Overview</h4>
-            <p>WEI is a personal wellness ecosystem powered by AI that integrates mental, emotional, and physical well-being tools into a single, privacy-respecting platform. WEI acts as a “wellness operating system,” connecting wearable devices, journaling apps, therapy support, and social safety nets with AI guidance and alerts.</p>
-            <h4>How WEI Works</h4>
+            <p>
+            The User-Initiated Data Marketplace is a revolutionary digital platform empowering individuals to <b>own, control, license, and monetize their own personal data</b>. Rather than being passively exploited by big tech, users decide exactly <b>what data is shared, to whom, for what purpose, and for what compensation</b>.
+            </p>
+            <h4>How It Works</h4>
             <ul>
-              <li>Aggregates data from MIE, MEI, and other devices</li>
-              <li>Provides holistic dashboards and proactive recommendations (e.g., exercise, therapy, diet, social connection)</li>
-              <li>Alerts user or caregivers if warning signals are detected (with user consent and escalation logic)</li>
-              <li>Supports legal and evidence needs for mental health events or disability claims</li>
+              <li>Each user has a secure dashboard showing all collected data types (e.g., browsing, purchases, biometrics, location, fitness, entertainment, financial, etc).</li>
+              <li>Users set their terms: <b>what data</b> is available, <b>who can access</b> it, <b>for how long</b>, and <b>at what price or license</b> (fixed fee, subscription, revenue share, etc).</li>
+              <li>Buyers (companies, researchers, advertisers, AI trainers, health orgs, etc) can browse, offer, or negotiate directly with users—<b>no middleman cuts</b>.</li>
+              <li>All access is permission-based, fully logged, and users can revoke access or delete records at any time.</li>
+              <li>Revenue is paid <b>directly to the user</b> with transparent commissions, if any, going to the platform to maintain privacy/security.</li>
             </ul>
-            <h4>Ethical Focus</h4>
+            <h4>Core Principles</h4>
             <ul>
-              <li>User can “pause” or delete any record at any time</li>
-              <li>All interventions are explainable and logged for transparency</li>
-              <li>WEI is open-source and peer-reviewed for safety</li>
+              <li><b>User Sovereignty:</b> The individual, not the corporation, owns and profits from their data.</li>
+              <li><b>True Transparency:</b> Every data request, access, and transaction is auditable by the user.</li>
+              <li><b>Privacy by Default:</b> All data is private unless explicitly licensed; buyers never see more than what is authorized.</li>
+              <li><b>Opt-In Only:</b> No data is sold or shared without the user's clear, positive consent.</li>
+              <li><b>Revocation & Deletion:</b> Users can retract access and erase data at any time, instantly.</li>
             </ul>
-            <h4>Big Vision</h4>
-            <p>WEI aims to become the default “wellness backbone” for the era of personalized, ethical, and user-driven AI healthcare and support.</p>
+            <h4>Real-World Use Cases</h4>
+            <ul>
+              <li>Sell your fitness data to a health study—for real money.</li>
+              <li>Let marketers buy ad data from you (not Facebook or Google) and get paid per campaign.</li>
+              <li>Offer your entertainment or music tastes for targeted recommendations—<b>and get a cut</b> of AI training revenue.</li>
+              <li>Trade location data with transit researchers or city planners, controlling timeframes and granularity.</li>
+              <li>Even decline all offers—your data stays yours unless you say otherwise.</li>
+            </ul>
+            <h4>Social Impact & Why It Matters</h4>
+            <ul>
+              <li><b>Redistributes power</b> and profit from Big Tech to real people.</li>
+              <li>Creates a fairer internet where the value of data is <b>visible and compensated</b>.</li>
+              <li>Encourages ethical data use—when companies must pay, they ask for less and respect privacy more.</li>
+              <li>Enables new income streams for everyone—especially those who are often exploited or overlooked by traditional tech business models.</li>
+            </ul>
+            <h4>Technical/Legal Features</h4>
+            <ul>
+              <li>Zero-knowledge encryption of all records (platform cannot see or use your data without your permission).</li>
+              <li>Open, peer-reviewed contracts and APIs—so you can port your data or export all records to any other system.</li>
+              <li>Compliance with GDPR, CCPA, and future privacy regulations—your rights, globally, by default.</li>
+            </ul>
+            <h4>Conclusion</h4>
+            <p>
+              This platform transforms the internet’s business model by <b>putting individuals in charge</b> of the world’s most valuable resource—their own private data. <b>Get paid for what is yours. Refuse when you want. Set your price. Make privacy real.</b>
+            </p>
+            <div style="font-size:1.12rem; font-weight:bold; color:#0078d4; margin:18px 0 0 0;">Own Your Data. Name Your Price. Change the World.</div>
             <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... <span style="font-weight:400;">all comments welcome</span></div>
-            <div class="comment-section" id="comments-wei"></div>
+            <div class="comment-section" id="comments-marketplace"></div>
           </div>
         </div>
         <!-- AI NARA Whitepaper -->
