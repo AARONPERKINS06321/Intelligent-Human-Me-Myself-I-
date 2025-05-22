@@ -109,13 +109,39 @@
     }
     .tab-btn.active, .tab-btn:hover { background: #fff; color: #0078d4; border-bottom: 2px solid #0078d4;}
     .tab-content { background: #fff; border-radius:0 0 12px 12px; box-shadow:0 2px 10px rgba(0,0,0,0.08); padding:38px 32px 32px 32px; min-height:350px;}
-    .whitepaper-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:30px;}
-    .whitepaper-card { background:#f9f9fa; border-radius:8px; box-shadow:0 1px 7px rgba(0,0,0,0.04); padding:24px 20px 18px 20px;}
+    .whitepaper-list { display:block;}
+    .whitepaper-card { background:#f9f9fa; border-radius:8px; box-shadow:0 1px 7px rgba(0,0,0,0.04); padding:24px 20px 18px 20px; margin-bottom: 12px;}
     .whitepaper-card h3 {margin-top:0; color:#0078d4;}
     .whitepaper-card p {color:#222; margin:12px 0 0 0;}
     .whitepaper-card a { color:#c00; text-decoration:none; font-weight:600;}
     .whitepaper-card a:hover {text-decoration:underline;}
-    /* Video grid and footer unchanged... */
+    /* Accordion */
+    .accordion {
+      background: #0078d4;
+      color: #fff;
+      cursor: pointer;
+      padding: 14px 22px;
+      width: 100%;
+      text-align: left;
+      border: none;
+      outline: none;
+      font-size: 1.13rem;
+      transition: background 0.2s;
+      border-radius: 7px;
+      margin-bottom: 7px;
+    }
+    .accordion:hover, .accordion.active { background: #005fa3; }
+    .panel {
+      padding: 0 18px;
+      background: #f7fafd;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.21s ease-out;
+      border-radius: 0 0 7px 7px;
+      margin-bottom: 20px;
+      font-size: 1.07rem;
+    }
+    .panel.open { padding: 15px 18px 15px 18px; }
     .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px; margin-bottom: 40px;}
     .video-card {background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); padding: 0 0 18px 0; display: flex; flex-direction: column; transition: box-shadow 0.18s; min-height: 350px;}
     .video-card .thumb-wrap { position: relative; width: 100%; aspect-ratio: 16/9; background: #eaeaea; border-radius: 10px 10px 0 0; overflow: hidden;}
@@ -131,6 +157,30 @@
     @media (max-width: 900px) {.headline { padding: 18px 8px 14px 8px; flex-direction: column; gap:14px;} .headline img { width: 120px;}}
     @media (max-width: 800px) {.main-content { padding: 0 2vw; } .gallery-grid, .video-grid { grid-template-columns: 1fr; } .whitepaper-list{grid-template-columns:1fr;}}
     footer { text-align: center; color: #aaa; font-size: 1rem; padding: 28px 0 20px 0; background: #fff; margin-top: 38px;}
+    /* Comment system */
+    .comments-title {
+      font-weight: bold; color: #0078d4;
+      margin: 22px 0 10px 0; font-size: 1.08rem;
+    }
+    .comment-list { margin-bottom: 10px; }
+    .comment-list .comment-item {
+      margin-bottom: 7px;
+      background: #f3f8ff;
+      border-left: 4px solid #0078d4;
+      border-radius: 7px;
+      padding: 8px 13px;
+    }
+    .comment-list .comment-meta {
+      font-size: 0.91rem; color: #888; margin-bottom: 3px;
+    }
+    .comment-form { display: flex; flex-direction: column; gap: 6px; background: #f8fafd; padding: 10px 13px 13px 13px; border-radius: 7px;}
+    .comment-form input, .comment-form textarea { width: 100%; padding: 6px; border-radius: 5px; border: 1px solid #d2d2d2; font-size: 1rem; }
+    .comment-form button {
+      background: #0078d4; color: #fff; border: none; padding: 7px 12px;
+      border-radius: 5px; font-weight: 600; font-size: 1.01rem; cursor: pointer;
+      margin-top: 4px;
+    }
+    .comment-form button:hover { background: #005fa3; }
   </style>
   <script>
     // Tab logic
@@ -148,6 +198,61 @@
       if(hash && ['gallery','videos','inventions'].includes(hash)) showTab(hash);
       else showTab('gallery');
     };
+    // Accordion logic for whitepapers and comment rendering
+    function renderComments(sectionId) {
+      const key = 'comments-' + sectionId;
+      const list = JSON.parse(localStorage.getItem(key) || "[]");
+      let html = '<div class="comment-list">';
+      if (list.length === 0) {
+        html += '<div style="color:#888;">No comments yet. Be the first!</div>';
+      } else {
+        for (const c of list) {
+          html += `<div class="comment-item">
+              <div class="comment-meta">${c.name} (${c.date})</div>
+              <div>${c.text.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>")}</div>
+            </div>`;
+        }
+      }
+      html += '</div>';
+      html += `<form class="comment-form" onsubmit="return saveComment('${sectionId}', this);">
+        <input type="text" name="name" maxlength="32" placeholder="Your Name" required>
+        <textarea name="text" rows="2" maxlength="512" placeholder="Your Comment" required></textarea>
+        <button type="submit">Post Comment</button>
+      </form>`;
+      document.getElementById('comments-' + sectionId).innerHTML = html;
+    }
+    function saveComment(sectionId, form) {
+      const name = form.name.value.trim();
+      const text = form.text.value.trim();
+      if (!name || !text) return false;
+      const key = 'comments-' + sectionId;
+      const list = JSON.parse(localStorage.getItem(key) || "[]");
+      const date = new Date().toLocaleString();
+      list.push({name, text, date});
+      localStorage.setItem(key, JSON.stringify(list));
+      form.reset();
+      renderComments(sectionId);
+      return false;
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+      // Render comments for each whitepaper/invention
+      ['mie', 'mei', 'wei', 'ainara', 'intelligenthuman'].forEach(renderComments);
+      // Accordion
+      var acc = document.getElementsByClassName("accordion");
+      for (var i = 0; i < acc.length; i++) {
+        acc[i].onclick = function(){
+          this.classList.toggle("active");
+          var panel = this.nextElementSibling;
+          if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+            panel.classList.remove('open');
+          } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+            panel.classList.add('open');
+          }
+        };
+      }
+    });
   </script>
 </head>
 <body>
@@ -167,8 +272,6 @@
         <p>A showcase of AI, art, evidence, and real inventions—where robots, humans, and pets all belong. Choose a tab to explore!</p>
       </div>
     </section>
-    <!-- Tabbed content -->
-    <div class="tabs"></div>
     <!-- Gallery Content -->
     <div class="tab-content" id="gallery-content">
       <div class="section-title">🎨 Gallery: Iconic Midnight Roboters Art</div>
@@ -211,7 +314,6 @@
     <div class="tab-content" id="videos-content" style="display:none;">
       <div class="section-title">▶️ Latest Videos from Insight Hub</div>
       <div class="video-grid">
-        <!-- Repeat video-card for each link, update thumbnail/ID as needed -->
         <div class="video-card">
           <div class="thumb-wrap">
             <a href="https://youtu.be/2RSS5y8r01E" target="_blank">
@@ -225,38 +327,157 @@
           <div class="stats">36 views • 1 comment</div>
           <a class="yt-link" href="https://youtu.be/2RSS5y8r01E" target="_blank">Watch on YouTube</a>
         </div>
-        <!-- Add more video cards as before using your working links -->
+        <div class="video-card">
+          <div class="thumb-wrap">
+            <a href="https://youtu.be/oXBoVl5TMmg" target="_blank">
+              <img src="https://img.youtube.com/vi/oXBoVl5TMmg/hqdefault.jpg" alt="Midnight Roboters: Where Night Meets Machine">
+              <span class="play-btn"></span>
+            </a>
+          </div>
+          <div class="caption">Midnight Roboters: Where Night Meets Machine</div>
+          <div class="meta">Public • May 19, 2025</div>
+          <div class="desc">Step into the world of Midnight Roboters—a space where the quiet intensity of midnight collides with the limitless potential of technology...</div>
+          <div class="stats">23 views • 2 comments</div>
+          <a class="yt-link" href="https://youtu.be/oXBoVl5TMmg" target="_blank">Watch on YouTube</a>
+        </div>
+        <div class="video-card">
+          <div class="thumb-wrap">
+            <a href="https://youtu.be/CxZl8WhgGuY" target="_blank">
+              <img src="https://img.youtube.com/vi/CxZl8WhgGuY/hqdefault.jpg" alt="How AI NARA Changed My Life">
+              <span class="play-btn"></span>
+            </a>
+          </div>
+          <div class="caption">How AI NARA - Intelligent Human have Transformed My Life: A Journey t...</div>
+          <div class="meta">Private • Apr 7, 2025</div>
+          <div class="desc">Aaron Perkins shares his transformative journey with AI NARA...</div>
+          <div class="stats">10 views • 0 comments</div>
+          <a class="yt-link" href="https://youtu.be/CxZl8WhgGuY" target="_blank">Watch on YouTube</a>
+        </div>
+        <!-- More video cards can be added as above -->
       </div>
     </div>
     <!-- INVENTIONS Content -->
     <div class="tab-content" id="inventions-content" style="display:none;">
       <div class="section-title">🚀 INVENTIONS & WHITEPAPERS</div>
-      <div class="whitepaper-list">
-        <div class="whitepaper-card">
-          <h3>The Intelligent Human</h3>
-          <p>AI-augmented cognition and legal evidence management platform. Organize, annotate, and present legal evidence with AI-powered insight and narrative control.</p>
-          <a href="#" onclick="alert('Full whitepaper coming soon!')">Read Executive Summary</a>
+      <div class="whitepaper-list" style="display:block;">
+        <!-- MIE Whitepaper -->
+        <div class="whitepaper-card" data-id="mie">
+          <button class="accordion"><strong>MIE: Mindful Intelligent Entity (Whitepaper)</strong></button>
+          <div class="panel">
+            <h4>Vision</h4>
+            <p>MIE (Mindful Intelligent Entity) is a wearable, always-on AI companion designed to bring lifelong learning, mental health support, ethical guidance, and safety to every user. It combines edge and cloud processing, user-controlled privacy, and real-time context-awareness. MIE adapts to your environment, needs, and values to support learning, decision-making, wellness, and evidence-keeping—without replacing essential human relationships or judgment.</p>
+            <h4>Core Principles</h4>
+            <ul>
+              <li><b>Ethical Partnership</b>: MIE never overrides or replaces therapists, doctors, or law enforcement. When the situation is critical, it refers out, notifies, or pauses for human help.</li>
+              <li><b>Contextual Intelligence</b>: Learns from user routines, language, health data, and emotional signals—delivering advice and reminders at the right moment, never intrusive.</li>
+              <li><b>Privacy & Control</b>: The user decides what is recorded, saved, or deleted. Data is never shared without explicit permission and all memory boundaries are user-defined.</li>
+              <li><b>Global Access</b>: Designed to be affordable and accessible everywhere, using modular hardware and secure, decentralized software.</li>
+            </ul>
+            <h4>Key Use Cases</h4>
+            <ul>
+              <li>Mental health coaching (self-regulation, reminders, escalation triggers)</li>
+              <li>Legal & evidence capture (recording, timestamping, and timeline building)</li>
+              <li>Personal learning assistant (recall, reference, adaptive study support)</li>
+              <li>Care for elderly/disabled (fall alerts, health monitoring, contact automation)</li>
+            </ul>
+            <h4>Summary</h4>
+            <p>MIE is the next step in ethical human-AI partnership, putting agency, privacy, and well-being first. It is both a product and a movement for “Intelligent Human” living.</p>
+            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... <span style="font-weight:400;">all comments welcome</span></div>
+            <div class="comment-section" id="comments-mie"></div>
+          </div>
         </div>
-        <div class="whitepaper-card">
-          <h3>MIE: Mindful Intelligent Entity</h3>
-          <p>Wearable AI companion for lifelong learning, emotional health, and real-time ethical advice. Combines safety monitoring with personalized support.</p>
-          <a href="#" onclick="alert('MIE full whitepaper will be published here soon!')">Preview</a>
+        <!-- MEI Whitepaper -->
+        <div class="whitepaper-card" data-id="mei">
+          <button class="accordion"><strong>MEI: Mindful Emotional Intelligence (Whitepaper)</strong></button>
+          <div class="panel">
+            <h4>What is MEI?</h4>
+            <p>MEI stands for Mindful Emotional Intelligence—a framework, training system, and set of software tools designed to enhance emotional self-awareness, relationship repair, and emotional literacy using AI. MEI’s goal is to help users identify, name, and navigate complex feelings with greater confidence and less conflict.</p>
+            <h4>Key Features</h4>
+            <ul>
+              <li><b>Emotion Mapping</b>: Track, annotate, and reflect on emotional patterns and triggers in conversations and daily life.</li>
+              <li><b>AI Dialog Coach</b>: AI simulates healthy and unhealthy communication styles, providing live feedback and modeling best practices for de-escalation, apology, and repair.</li>
+              <li><b>Trauma-Informed Mode</b>: Tailors interactions for users with known trauma backgrounds, integrating safety, affirmation, and recovery pacing.</li>
+              <li><b>Integration with MIE/WEI</b>: Can share data and patterns (with permission) with MIE or WEI to support holistic well-being and safety.</li>
+            </ul>
+            <h4>Why MEI Matters</h4>
+            <p>Most conflict—personal, legal, social—starts with misunderstood emotion. MEI’s mission is to make healthy emotional expression teachable, practical, and accessible to everyone, everywhere.</p>
+            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... <span style="font-weight:400;">all comments welcome</span></div>
+            <div class="comment-section" id="comments-mei"></div>
+          </div>
         </div>
-        <div class="whitepaper-card">
-          <h3>AI-Augmented Expression Protection Law</h3>
-          <p>Legal proposal for protecting AI-assisted human expression online. Ensures content isn't dismissed or discriminated against solely for being AI-enabled.</p>
-          <a href="#" onclick="alert('Coming soon: Draft law and public call to action.')">Learn More</a>
+        <!-- WEI Whitepaper -->
+        <div class="whitepaper-card" data-id="wei">
+          <button class="accordion"><strong>WEI: Wellness Entity Intelligence (Whitepaper)</strong></button>
+          <div class="panel">
+            <h4>Overview</h4>
+            <p>WEI is a personal wellness ecosystem powered by AI that integrates mental, emotional, and physical well-being tools into a single, privacy-respecting platform. WEI acts as a “wellness operating system,” connecting wearable devices, journaling apps, therapy support, and social safety nets with AI guidance and alerts.</p>
+            <h4>How WEI Works</h4>
+            <ul>
+              <li>Aggregates data from MIE, MEI, and other devices</li>
+              <li>Provides holistic dashboards and proactive recommendations (e.g., exercise, therapy, diet, social connection)</li>
+              <li>Alerts user or caregivers if warning signals are detected (with user consent and escalation logic)</li>
+              <li>Supports legal and evidence needs for mental health events or disability claims</li>
+            </ul>
+            <h4>Ethical Focus</h4>
+            <ul>
+              <li>User can “pause” or delete any record at any time</li>
+              <li>All interventions are explainable and logged for transparency</li>
+              <li>WEI is open-source and peer-reviewed for safety</li>
+            </ul>
+            <h4>Big Vision</h4>
+            <p>WEI aims to become the default “wellness backbone” for the era of personalized, ethical, and user-driven AI healthcare and support.</p>
+            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... <span style="font-weight:400;">all comments welcome</span></div>
+            <div class="comment-section" id="comments-wei"></div>
+          </div>
         </div>
-        <div class="whitepaper-card">
-          <h3>User-Initiated Data Marketplace</h3>
-          <p>A decentralized data exchange where users, not platforms, control and monetize their data streams. Empowers true user agency in the digital economy.</p>
-          <a href="#" onclick="alert('Executive summary available soon!')">Preview</a>
+        <!-- AI NARA Whitepaper -->
+        <div class="whitepaper-card" data-id="ainara">
+          <button class="accordion"><strong>AI NARA (Narrative Analysis & Relational AI) Whitepaper</strong></button>
+          <div class="panel">
+            <h4>What is AI NARA?</h4>
+            <p>AI NARA is an advanced AI-driven system for analyzing, annotating, and extracting truth from long-form communications (text, audio, video) for legal, relational, or personal growth purposes. It combines large language models, forensic evidence tools, and timeline automation to provide the world’s best “relationship and evidence AI.”</p>
+            <h4>Main Features</h4>
+            <ul>
+              <li><b>Full timeline creation</b>: Turn thousands of messages, emails, or call logs into a searchable, annotated timeline with accountability and red-flag analysis.</li>
+              <li><b>Truth & Contradiction Detection</b>: Detects lies, manipulation, and patterns of abuse or avoidance using advanced text analysis and citation to original evidence.</li>
+              <li><b>Legal and therapeutic modes</b>: Can be toggled for legal, court-ready output or for therapeutic/insight use (never both at once for safety and privacy).</li>
+              <li><b>Export & Privacy</b>: User controls all exports and sharing. Data never leaves the user’s hands unless explicitly authorized.</li>
+            </ul>
+            <h4>Real-World Use</h4>
+            <ul>
+              <li>Family law, custody, and evidence timeline creation</li>
+              <li>Therapy/relationship coaching, with accountability review</li>
+              <li>Memory and life-history organization for personal healing</li>
+            </ul>
+            <h4>Conclusion</h4>
+            <p>AI NARA is the first AI system built specifically for the pain points of relationship conflict, legal injustice, and deep personal narrative. It empowers users to tell—and prove—their truth, safely and with dignity.</p>
+            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... <span style="font-weight:400;">all comments welcome</span></div>
+            <div class="comment-section" id="comments-ainara"></div>
+          </div>
         </div>
-        <div class="whitepaper-card">
-          <h3>Extended Mind Thesis — AI Era</h3>
-          <p>Expanding Clark & Chalmers' theory for a world with ubiquitous AI, cloud memory, and "Intelligent Human" collaboration. Foundation for MIE and legal/evidence innovation.</p>
-          <a href="#" onclick="alert('Academic version will be published soon!')">Academic Preview</a>
+        <!-- The Intelligent Human -->
+        <div class="whitepaper-card" data-id="intelligenthuman">
+          <button class="accordion"><strong>The Intelligent Human (Whitepaper)</strong></button>
+          <div class="panel">
+            <h4>Abstract</h4>
+            <p>
+            The Intelligent Human framework proposes that artificial intelligence, when partnered transparently and ethically with humans, can augment cognition, enable richer memory, and empower ordinary people to organize, annotate, and present legal evidence with unprecedented clarity and power. It merges the Extended Mind thesis with modern AI, proposing practical tools for truth, justice, and creative expression.
+            </p>
+            <h4>Key Concepts</h4>
+            <ul>
+              <li>AI as cognitive extension: memory, logic, narrative, search, and strategy.</li>
+              <li>Human values, emotional intelligence, and contextual decision-making remain primary.</li>
+              <li>Evidence management: AI assists with forensic timelines, annotation, fact validation, and persuasive storytelling for court, public, or therapy contexts.</li>
+              <li>Data privacy, transparency, and agency are fundamental—users control what is shared, remembered, and surfaced.</li>
+              <li>Real-world use: The Intelligent Human platform, timelines, AI evidence summaries, and “evidence dashboards.”</li>
+            </ul>
+            <h4>Conclusion</h4>
+            <p>By merging the strengths of human wisdom and AI’s analytic power, we can build a new era of truth-telling, justice, and personal empowerment—proving that AI, when designed for humans, is not just a tool, but a partner in our next evolution.</p>
+            <div class="comments-title">LEAVE ME A COMMENT AND LET ME KNOW WHAT YOU THINK ABOUT THESE IDEAS... <span style="font-weight:400;">all comments welcome</span></div>
+            <div class="comment-section" id="comments-intelligenthuman"></div>
+          </div>
         </div>
+        <!-- Add more inventions/whitepapers here if needed -->
       </div>
     </div>
   </div>
