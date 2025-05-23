@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Review: AI-Based Inventions by Aaron Perkins</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices:
+        - Overview: Text summary. Table 1 (Invention Overview) as HTML table. Goal: Inform. Method: Structured text, table. Interaction: Navigation. Justification: Clear, concise start.
+        - HAEPA: Text for details. Interactive tabs for Benefits/Concerns. Chart.js horizontal bar chart for Table 2 (Arguments For/Against - quantified by number of points). Goal: Compare, Inform. Method: Text, Chart.js. Interaction: Tabs, chart view. Justification: Visual comparison of arguments.
+        - Emotional Toolkit: Text for details. Interactive tabs for Benefits/Concerns. Goal: Inform. Method: Text. Interaction: Tabs. Justification: Focused content display.
+        - AI NARA: Text for details. Interactive tabs for Benefits/Concerns. Goal: Inform. Method: Text. Interaction: Tabs. Justification: Focused content display.
+        - User Data Marketplace: Text for details. Interactive tabs for Benefits/Challenges. Chart.js horizontal bar chart for Table 3 (Challenges vs. Mitigations - quantified). Goal: Compare, Inform. Method: Text, Chart.js. Interaction: Tabs, chart view. Justification: Visual summary of challenges.
+        - MIE: Text for details. Interactive tabs for Benefits/Concerns. Goal: Inform. Method: Text. Interaction: Tabs. Justification: Focused content display.
+        - Ethical Frameworks (Themes): Text summary. Table 4 (Ethical Principles) as HTML table. Chart.js donut chart for number of principles. Goal: Inform, Organize. Method: Text, Table, Chart.js. Interaction: Static display, chart view. Justification: Clear presentation of principles.
+        - IP/Human-AI Relationship (Themes): Text summaries. Goal: Inform. Method: Text. Interaction: Static. Justification: Concise thematic overview.
+        - Critical Assessment/Conclusion: Text summaries. Lists for questions. Goal: Inform, Summarize. Method: Text. Interaction: Static. Justification: Concluding thoughts.
+        - CONFIRMING NO SVG/Mermaid. Charts via Chart.js (Canvas). Diagrams (if any, like simple flows) via HTML/CSS/Tailwind.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link {
+            @apply px-4 py-2 text-slate-700 hover:bg-sky-100 hover:text-sky-700 rounded-md transition-colors duration-200;
+        }
+        .nav-link.active {
+            @apply bg-sky-600 text-white hover:bg-sky-700;
+        }
+        .tab-button {
+            @apply px-4 py-2 text-slate-600 font-medium border-b-2 border-transparent hover:border-sky-500 hover:text-sky-600 transition-colors duration-200;
+        }
+        .tab-button.active {
+            @apply border-sky-600 text-sky-700;
+        }
+        .content-section {
+            @apply p-6 bg-white rounded-lg shadow-lg;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        h1, h2, h3, h4 { @apply text-slate-800; }
+        h1 { @apply text-3xl font-bold mb-6; }
+        h2 { @apply text-2xl font-semibold mb-4 mt-6; }
+        h3 { @apply text-xl font-semibold mb-3 mt-4; }
+        h4 { @apply text-lg font-semibold mb-2 mt-3; }
+        p { @apply mb-4 leading-relaxed text-slate-700; }
+        ul { @apply list-disc list-inside mb-4 pl-4 text-slate-700; }
+        table { @apply w-full border-collapse mb-4; }
+        th, td { @apply border border-slate-300 p-2 text-left text-sm text-slate-700; }
+        th { @apply bg-slate-100 font-semibold; }
+        .invention-nav-button {
+            @apply w-full text-left px-4 py-3 text-slate-700 hover:bg-sky-100 hover:text-sky-700 rounded-md transition-colors duration-200;
+        }
+        .invention-nav-button.active {
+            @apply bg-sky-600 text-white hover:bg-sky-700;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-700">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-sky-700">AI Inventions: An Interactive Review</h1>
+                </div>
+                <nav class="hidden md:flex space-x-1">
+                    <button class="nav-link active" data-target="overview">Overview</button>
+                    <div class="relative group">
+                        <button class="nav-link" id="inventionsNavButton">Inventions <span class="text-xs">&#9662;</span></button>
+                        <div id="inventionsDropdown" class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden group-hover:block">
+                            <button class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-100 w-full text-left invention-dropdown-item" data-target="invention-haepa">HAEPA</button>
+                            <button class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-100 w-full text-left invention-dropdown-item" data-target="invention-toolkit">Emotional Toolkit</button>
+                            <button class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-100 w-full text-left invention-dropdown-item" data-target="invention-nara">AI NARA</button>
+                            <button class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-100 w-full text-left invention-dropdown-item" data-target="invention-marketplace">Data Marketplace</button>
+                            <button class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-100 w-full text-left invention-dropdown-item" data-target="invention-mie">MIE</button>
+                        </div>
+                    </div>
+                    <button class="nav-link" data-target="themes">Cross-Cutting Themes</button>
+                    <button class="nav-link" data-target="assessment">Critical Assessment</button>
+                    <button class="nav-link" data-target="conclusion">Conclusion</button>
+                </nav>
+                <div class="md:hidden">
+                    <button id="mobileMenuButton" class="text-slate-700 hover:text-sky-700 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobileMenu" class="md:hidden hidden bg-white shadow-lg">
+            <nav class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button class="block nav-link w-full text-left active" data-target="overview">Overview</button>
+                <button class="block nav-link w-full text-left" data-target="invention-haepa">HAEPA</button>
+                <button class="block nav-link w-full text-left" data-target="invention-toolkit">Emotional Toolkit</button>
+                <button class="block nav-link w-full text-left" data-target="invention-nara">AI NARA</button>
+                <button class="block nav-link w-full text-left" data-target="invention-marketplace">Data Marketplace</button>
+                <button class="block nav-link w-full text-left" data-target="invention-mie">MIE</button>
+                <button class="block nav-link w-full text-left" data-target="themes">Cross-Cutting Themes</button>
+                <button class="block nav-link w-full text-left" data-target="assessment">Critical Assessment</button>
+                <button class="block nav-link w-full text-left" data-target="conclusion">Conclusion</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div id="contentHost">
+            </div>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 text-center p-4 mt-12">
+        <p class="text-sm">&copy; 2025 Interactive Summary of AI Inventions Review. Based on the report by Aaron Perkins.</p>
+    </footer>
+
+<script>
+    const appData = {
+        overview: {
+            title: "Overview of AI-Based Inventions",
+            introduction: "<p>This interactive application provides an analytical review of a portfolio of Artificial Intelligence (AI) based inventions primarily attributed to Aaron Perkins. These inventions span legislative proposals, tools for emotional well-being, AI-driven evidence analysis, and platforms for data monetization. The aim is to explore their potential, challenges, and broader societal implications in an accessible format.</p><p>The core concepts include the Human-AI Expression Protection Act (HAEPA), an Emotional Self-Reflection Toolkit, an AI system for evidence review named AI NARA, a User-Initiated Data Marketplace, and a conceptual Mindful Intelligent Entity (MIE). Collectively, these highlight a drive towards fostering human-AI collaboration, leveraging AI for truth and emotional understanding, and empowering individuals in the data economy.</p>",
+            content: `
+                <h2>Introduction to the AI Invention Portfolio</h2>
+                <p>The suite of AI-based concepts and tools primarily attributed to Aaron Perkins represents a visionary endeavor to address multifaceted issues at the confluence of artificial intelligence, human experience, evolving legal frameworks, and individual data rights. These inventions, often presented as forward-looking solutions, tackle complex challenges such as the protection of AI-augmented speech, the enhancement of emotional self-awareness, the use of AI in discerning truth from large datasets, and the empowerment of individuals in controlling and monetizing their personal data.</p>
+                <p>The primary sources for understanding these inventions are publicly accessible materials. It is important to note that detailed whitepapers or formal technical specifications for some of these concepts, particularly the Mindful Intelligent Entity (MIE), were found to be inaccessible during the research phase, which shapes the depth of technical analysis for certain inventions.</p>
+                <h3>Table 1: Overview of Aaron Perkins' AI Inventions</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Invention Name</th>
+                            <th>Brief Description</th>
+                            <th>Stated Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Human-AI Expression Protection Act (HAEPA)</strong></td>
+                            <td>A legislative draft proposal.</td>
+                            <td>To prohibit discrimination against, dismissal of, or interrogation regarding a person's communication based solely on whether it was created or co-authored using artificial intelligence.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Emotional Self-Reflection Toolkit</strong></td>
+                            <td>A toolkit and protocol for emotional self-reflection and communication.</td>
+                            <td>For both humans and AIs to help track mood, improve relationships, and give feedback on tough conversations, with consent and privacy in mind.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AI NARA</strong></td>
+                            <td>An AI system for legal, therapeutic, and personal use.</td>
+                            <td>To review massive logs of evidence (messages, emails, etc.) to find real facts, emotional patterns, contradictions, and red flags; built for truth.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>User-Initiated Data Marketplace</strong></td>
+                            <td>A platform for personal data monetization and control.</td>
+                            <td>To allow users to buy, sell, or license their personal data on their own terms, controlling access, duration, and price.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MIE (Mindful Intelligent Entity)</strong></td>
+                            <td>An AI entity, likely an advanced AI companion.</td>
+                            <td>(Presumed) To focus on mindfulness, emotional intelligence, or well-being, given the name. Detailed whitepaper inaccessible.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>This portfolio, in its ambition and scope, prompts a critical examination of not only the individual merits and challenges of each proposed invention but also the broader societal, ethical, and legal landscapes they aim to navigate and reshape.</p>
+            `
+        },
+        "invention-haepa": {
+            title: "Human-AI Expression Protection Act (HAEPA)",
+            introduction: "<p>HAEPA is a proposed law aiming to protect individuals from discrimination based on their use of AI in communication. This section explores its details, justifications, and the critical discussions surrounding it. The core idea is to treat AI-assisted expression as an extension of human speech, especially for those who rely on AI as an assistive tool.</p>",
+            tabs: [
+                { id: "haepa-details", label: "Detailed Analysis", content: `
+                    <h4>Detailed Analysis of Proposal</h4>
+                    <p>The Human-AI Expression Protection Act (HAEPA) is a formal law proposed by Aaron Perkins, in collaboration with an AI partner, designed to address perceived discrimination against individuals using AI to assist their communication. The core objective of HAEPA is to prohibit the discrimination, dismissal, or interrogation of a person's communication based *solely* on whether it was created or co-authored using artificial intelligence.</p>
+                    <p>Key provisions outlined in the draft legislation include:</p>
+                    <ul>
+                        <li><strong>Definitions</strong>: "AI-Assisted Communication" is defined as any form of communication (text, video, image, voice) generated in full or part by AI tools. "Origin Discrimination" refers to any act of dismissing, rejecting, penalizing, or interrogating a speaker solely based on the AI-created nature of their communication.</li>
+                        <li><strong>Prohibitions</strong>: The Act would make it unlawful for institutions, employers, academic bodies, media outlets, or public entities to require disclosure of AI authorship in individual personal communications, penalize submissions solely due to AI assistance, or use AI detection tools to surveil or challenge expression without legal cause or consent.</li>
+                        <li><strong>Protections</strong>: AI-assisted expression would be considered a protected extension of human speech, analogous to other assistive technologies like speech-to-text software. The burden of "authenticity" cannot invalidate communications if they are truthful, useful, or represent the speaker's meaning, even if AI-produced.</li>
+                        <li><strong>Exemptions</strong>: The Act proposes exemptions for academic institutions or legal bodies to regulate authorship when explicitly relevant to grading or testimony, provided such policies are disclosed, equitable, and appealable.</li>
+                    </ul>
+                    <p>The proposal frames AI as an essential assistive technology, particularly for individuals who, due to disability, trauma, educational gaps, or emotional overload, find AI necessary to fully and clearly express themselves. Perkins argues that for these individuals, AI doesn't erase their voice but rather "amplified it," helping them say what they truly mean.</p>
+                `},
+                { id: "haepa-justifications", label: "Justifications & Benefits", content: `
+                    <h4>Justifications and Supporting Arguments</h4>
+                    <p>Several arguments are presented in support of HAEPA:</p>
+                    <ul>
+                        <li><strong>Amplifying the Human Voice</strong>: The primary justification is that AI can be a crucial tool for articulation, enabling individuals to communicate more clearly, carefully, and without the emotional overwhelm of finding the right words alone.</li>
+                        <li><strong>Addressing Flaws in AI Detection Tools</strong>: A significant concern underpinning HAEPA is the unreliability of AI detection tools, which have shown high false-positive rates. Such inaccuracies can disproportionately penalize native English speakers, neurodivergent writers, and trauma survivors.</li>
+                        <li><strong>Preventing "AI Stigma"</strong>: The proposal references warnings about "AI stigma," where questioning or penalizing human-machine collaboration can reinforce inequality.</li>
+                        <li><strong>Upholding Digital Civil Liberties</strong>: HAEPA's principles resonate with advocacy for digital civil liberties, particularly concerning protection against unwarranted surveillance and the tracking of content origins.</li>
+                    </ul>
+                `},
+                { id: "haepa-concerns", label: "Concerns & Discussion", content: `
+                    <h4>Critical Discussion of Concerns and Community Feedback</h4>
+                    <p>Despite its protective aims, HAEPA has elicited significant debate and concerns:</p>
+                    <ul>
+                        <li><strong>First Amendment and Freedom of Speech</strong>: A primary criticism revolves around whether HAEPA could infringe upon the First Amendment right to question, debate, and critique AI-generated or AI-assisted content. Perkins has clarified that the Act is not intended to stifle open discussion but to prevent institutional or systematic discrimination.</li>
+                        <li><strong>Authenticity, Misrepresentation, and Accountability</strong>: Concerns persist regarding the potential for AI to "hallucinate," generate incorrect information, or be used to misrepresent facts.</li>
+                        <li><strong>Scope and Definition of "Interrogation"</strong>: The Act's use of "interrogation" requires careful delineation to prevent situations where, for example, a student is disciplined merely for using AI, regardless of work quality, while allowing legitimate academic integrity processes.</li>
+                        <li><strong>Artistic and Academic Contexts</strong>: A nuanced challenge arises in fields where the process of creation or individual skill is paramount. HAEPA's exemptions aim to address this but practical application remains contentious.</li>
+                        <li><strong>Potential for Misuse and Chilling Effects</strong>: There is a concern that HAEPA might inadvertently shield low-quality content or, conversely, that overly aggressive AI detection could chill legitimate AI use.</li>
+                    </ul>
+                    <p>The core tension is balancing protection from discrimination with the ability to critically evaluate content and uphold standards of originality and accountability. The word "solely" is pivotal. HAEPA also highlights bias in AI *detection* tools, adding complexity to AI governance.</p>
+                    <h4>Arguments For and Against HAEPA (Summary)</h4>
+                    <div class="chart-container my-6 h-[350px] md:h-[400px]"><canvas id="haepaChart"></canvas></div>
+                `},
+                 { id: "haepa-questions", label: "Critical Questions", content: `
+                    <h4>Critical Questions for HAEPA</h4>
+                    <ul>
+                        <li>How can HAEPA be practically implemented to genuinely protect vulnerable individuals who rely on AI for expression, without inadvertently shielding malicious actors, low-quality content, or undermining legitimate academic, artistic, and professional scrutiny where human originality or specific skills are being assessed?</li>
+                        <li>What precise legal and operational mechanisms and standards would differentiate "institutional or systematic discrimination" based solely on AI use from legitimate critical inquiry into the nature, quality, or authenticity of AI-assisted works in diverse contexts?</li>
+                    </ul>
+                `}
+            ],
+            chartData: {
+                labels: ['Freedom & Accessibility', 'Authenticity & Accountability', 'Discrimination & Bias', 'Practicality & Scope', 'Innovation & Progress'],
+                datasets: [
+                    {
+                        label: 'Supporting Points',
+                        data: [2, 2, 2, 2, 2], // Approximated counts from Table 2
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)', // sky-500
+                    },
+                    {
+                        label: 'Counterarguments/Concerns',
+                        data: [2, 2, 1, 3, 1], // Approximated counts from Table 2
+                        backgroundColor: 'rgba(244, 63, 94, 0.7)', // rose-500
+                    }
+                ]
+            }
+        },
+        "invention-toolkit": {
+            title: "Emotional Self-Reflection Toolkit",
+            introduction: "<p>The Emotional Self-Reflection Toolkit is designed to aid both humans and AI in understanding and managing emotions. This section delves into its purpose, potential benefits, and the significant ethical considerations it raises, particularly concerning AI's role in emotional interpretation and privacy.</p>",
+            tabs: [
+                { id: "toolkit-purpose", label: "Purpose & Functionality", content: `
+                    <h4>Purpose and Functionality</h4>
+                    <p>The Emotional Self-Reflection Toolkit is conceptualized as a protocol and set of tools designed to facilitate emotional self-reflection and improve communication for both humans and AI systems. Its stated aims are to help users track their moods, enhance interpersonal relationships, and provide constructive feedback during difficult conversations, all while prioritizing user consent and data privacy.</p>
+                    <p>While specific details from Aaron Perkins on this toolkit are limited, the concept aligns with broader research into "toolkits" for reflective play. These often involve generative exercises, evaluative tools, guiding questions, and design patterns to evoke reflection, including emotional reflection, within interactive experiences.</p>
+                `},
+                { id: "toolkit-benefits", label: "Potential Benefits", content: `
+                    <h4>Potential Benefits and Connections</h4>
+                    <p>The proposed Emotional Self-Reflection Toolkit could offer several benefits:</p>
+                    <ul>
+                        <li><strong>Enhanced Self-Awareness and Emotional Intelligence (EI)</strong>: Could foster greater self-awareness by providing structured methods for introspection and mood tracking.</li>
+                        <li><strong>Improved Interpersonal Communication</strong>: Aims to improve relationships and provide feedback on tough conversations, aligning with EI development.</li>
+                        <li><strong>Processing Difficult Emotions</strong>: Could incorporate mechanisms for stimulating reflection on negative or challenging emotions.</li>
+                        <li><strong>Fostering Well-being</strong>: Designed to improve relationships and facilitate constructive feedback, contributing to overall well-being.</li>
+                    </ul>
+                `},
+                { id: "toolkit-ethics", label: "Ethical Considerations", content: `
+                    <h4>Ethical Considerations and Challenges</h4>
+                    <p>The development and deployment of an Emotional Self-Reflection Toolkit, especially one involving AI, present considerable ethical challenges:</p>
+                    <ul>
+                        <li><strong>Accuracy of AI-driven Mood Tracking</strong>: Current AI struggles with accurately interpreting complex human emotions, risking misinterpretation and inappropriate feedback.</li>
+                        <li><strong>Privacy Risks of Emotional Monitoring</strong>: Continuous emotional monitoring raises significant privacy and surveillance concerns, requiring robust data protection.</li>
+                        <li><strong>Psychological Impact on Users</strong>: Risks include over-reliance, dependency, and questions about the authenticity of AI "reflection" or feedback.</li>
+                        <li><strong>Meaningful Informed Consent</strong>: Obtaining truly informed consent for processing deeply personal emotional data is complex.</li>
+                        <li><strong>Potential for Manipulation</strong>: Emotionally intelligent systems could subtly manipulate user emotions or behavior if not ethically designed.</li>
+                    </ul>
+                    <p>The dual-use nature (for humans and AIs) creates conceptual and ethical divergence. For AIs, "emotional self-reflection" is speculative. The promise of "consent and privacy in mind" faces substantial hurdles with sensitive emotional data. Giving feedback on "tough conversations" requires AI capabilities beyond current surface-level analysis and risks providing ill-suited advice.</p>
+                `},
+                { id: "toolkit-questions", label: "Critical Questions", content: `
+                    <h4>Critical Questions for the Emotional Self-Reflection Toolkit</h4>
+                    <ul>
+                        <li>Given AI's current documented limitations in accurately understanding and interpreting emotional nuance and complex human contexts, what specific, verifiable protocols and safeguards would be embedded within the toolkit to prevent misinterpretation and the delivery of potentially harmful or inappropriate feedback, particularly when addressing "tough conversations"?</li>
+                        <li>If the toolkit is also intended for use by AIs themselves for "self-reflection", what is the underlying theoretical and ethical framework for such AI self-reflection? What are its intended goals, how would its efficacy be measured, and what safeguards would prevent anthropomorphic misinterpretations by human users interacting with AIs that have used this toolkit?</li>
+                    </ul>
+                `}
+            ]
+        },
+        "invention-nara": {
+            title: "AI NARA (AI for Evidence Review)",
+            introduction: "<p>AI NARA is an AI system proposed for legal, therapeutic, and personal use to analyze large volumes of evidence for facts, patterns, and red flags. This section examines its functionality, potential benefits, and the critical challenges related to truth, bias, and privacy in such a system.</p>",
+            tabs: [
+                { id: "nara-functionality", label: "Functionality & Applications", content: `
+                    <h4>Proposed Functionality and Applications</h4>
+                    <p>AI NARA is described as an AI system intended for legal, therapeutic, and personal use. Its core function is to analyze "massive logs of evidence," such as messages, emails, and other digital communications, with the goal of identifying "real facts, emotional patterns, contradictions, and red flags." The system is purportedly "built for truth, not hype," suggesting an emphasis on accuracy and objectivity in its analytical capabilities.</p>
+                `},
+                { id: "nara-benefits", label: "Potential Benefits", content: `
+                    <h4>Potential Benefits</h4>
+                    <p>The deployment of a system like AI NARA could offer several advantages:</p>
+                    <ul>
+                        <li><strong>Efficiency in Evidence Review</strong>: Could significantly accelerate the review of vast quantities of digital evidence in legal contexts.</li>
+                        <li><strong>Detection of Subtle Patterns</strong>: AI's pattern recognition could uncover subtle emotional trends or inconsistencies overlooked by humans.</li>
+                        <li><strong>Objective Analysis (Stated Goal)</strong>: Aims to provide an objective layer of analysis, potentially reducing human bias in initial screening (though achieving true AI objectivity is complex).</li>
+                    </ul>
+                `},
+                { id: "nara-challenges", label: "Challenges & Ethics", content: `
+                    <h4>Challenges and Ethical Considerations</h4>
+                    <p>Despite its potential, AI NARA faces substantial challenges and ethical considerations:</p>
+                    <ul>
+                        <li><strong>Defining and Identifying "Real Facts"</strong>: AI struggles with context, nuance, and subjectivity in human communication, making the identification of "real facts" contentious.</li>
+                        <li><strong>Accuracy of Emotional Pattern Detection</strong>: Accurately recognizing complex emotional patterns and their significance is a major hurdle for AI.</li>
+                        <li><strong>Contradiction Detection Nuance</strong>: AI might flag benign inconsistencies as problematic without understanding human reasons.</li>
+                        <li><strong>Algorithmic Bias</strong>: AI NARA could inherit biases from training data, leading to skewed interpretations.</li>
+                        <li><strong>Privacy and Data Security</strong>: Processing massive logs of sensitive personal data requires stringent security and compliance.</li>
+                        <li><strong>Explainability and Transparency (XAI)</strong>: AI NARA's reasoning must be transparent for credibility in legal/therapeutic settings.</li>
+                        <li><strong>Necessity of Human Oversight</strong>: Continuous human oversight is indispensable due to AI's limitations.</li>
+                        <li><strong>Potential for Misuse and Misinterpretation</strong>: Incorrect "red flag" identification could lead to false accusations or harm relationships.</li>
+                    </ul>
+                    <p>The claim "built for truth" is challenging, as AI provides probabilistic outputs, not objective reality. Applying AI NARA across legal, therapeutic, and personal domains requires vastly different safeguards. The system also risks fostering a culture of suspicion or being repurposed for surveillance.</p>
+                `},
+                { id: "nara-questions", label: "Critical Questions", content: `
+                    <h4>Critical Questions for AI NARA</h4>
+                    <ul>
+                        <li>How will AI NARA operationally define and algorithmically distinguish "real facts" from interpretations, inferences, opinions, or subjective statements within diverse and often ambiguous communication logs? How will its "truth-finding" process be validated for accuracy and made transparent and explainable, especially concerning its admissibility in legal proceedings or its reliability in therapeutic assessments?</li>
+                        <li>What specific, ongoing measures and diverse datasets will be used to train and audit AI NARA to proactively identify and mitigate algorithmic biases, ensuring it does not disproportionately flag individuals from certain demographics or misinterpret communications styles prevalent in diverse cultural or linguistic backgrounds?</li>
+                    </ul>
+                `}
+            ]
+        },
+        "invention-marketplace": {
+            title: "User-Initiated Data Marketplace",
+            introduction: "<p>The User-Initiated Data Marketplace aims to empower individuals to control and monetize their personal data. This section covers its concept, potential models, benefits, and the significant critical challenges it faces, from user adoption to fair valuation and data security.</p>",
+            tabs: [
+                { id: "marketplace-concept", label: "Concept & Purpose", content: `
+                    <h4>Concept and Purpose</h4>
+                    <p>The User-Initiated Data Marketplace is envisioned as a platform enabling individuals to actively control and monetize their personal data. The core idea is to empower users to buy, sell, or license their data on their own terms, specifying who can access their information, for what duration, and at what price. This concept directly challenges the prevailing model where large technology companies often profit from user data without direct user consent for each transaction or equitable compensation to the data subjects themselves. This aligns with broader movements towards data empowerment and data dignity.</p>
+                `},
+                { id: "marketplace-benefits", label: "Potential Models & Benefits", content: `
+                    <h4>Potential Models and Benefits</h4>
+                    <p>Such a marketplace could manifest in various forms, potentially leveraging decentralized technologies, and offers several potential benefits:</p>
+                    <ul>
+                        <li><strong>User Empowerment and Control</strong>: Grants individuals greater agency over their personal data assets.</li>
+                        <li><strong>Fair Valuation and Compensation</strong>: Aims to facilitate fair valuation and compensation for data use.</li>
+                        <li><strong>Enhanced Transparency</strong>: Blockchain and smart contracts could provide transparent ledgers of data transactions and enforce terms.</li>
+                        <li><strong>Source of Diverse and Ethically Sourced Data</strong>: Could become a valuable source of ethically sourced data for AI training and research.</li>
+                    </ul>
+                    <p>Elements are seen in existing enterprise data marketplaces and decentralized platforms like Ocean Protocol or Streamr. Companies like Meeco are developing tools for a personal data economy centered on user control.</p>
+                `},
+                { id: "marketplace-challenges", label: "Critical Challenges", content: `
+                    <h4>Critical Challenges</h4>
+                    <p>The realization of a functional and ethical User-Initiated Data Marketplace faces numerous significant challenges:</p>
+                    <ul>
+                        <li><strong>Adoption Barriers</strong>: User trust, psychological factors, technical complexity, and data literacy.</li>
+                        <li><strong>Fair Data Valuation</strong>: Determining fair market value for diverse personal data is exceptionally complex.</li>
+                        <li><strong>Data Privacy and Security</strong>: Protecting sensitive data from breaches and misuse is critical.</li>
+                        <li><strong>Prevention of Exploitation and Ensuring Buyer Compliance</strong>: Ensuring buyers adhere to usage limitations is a major hurdle.</li>
+                        <li><strong>Regulatory Compliance</strong>: Navigating complex data protection regulations (GDPR, CCPA).</li>
+                        <li><strong>Governance Structures</strong>: Decentralized marketplaces require robust governance models.</li>
+                        <li><strong>The Digital Divide</strong>: Risks exacerbating existing digital and socioeconomic inequalities.</li>
+                        <li><strong>Ethical Implications of Data Commodification</strong>: Treating personal data purely as a tradable commodity raises ethical questions.</li>
+                    </ul>
+                    <p>The marketplace could introduce new inequalities if not carefully designed to support less data-literate users. Robust mechanisms for data provenance and buyer compliance are essential. It also challenges "surveillance capitalism" but requires significant shifts in user behavior and market adoption.</p>
+                    <h4>Key Challenges and Mitigation Strategies (Summary)</h4>
+                     <div class="chart-container my-6 h-[450px] md:h-[500px]"><canvas id="marketplaceChart"></canvas></div>
+                `},
+                { id: "marketplace-questions", label: "Critical Questions", content: `
+                    <h4>Critical Questions for the User-Initiated Data Marketplace</h4>
+                    <ul>
+                        <li>Beyond providing user control over data sharing, what robust mechanisms will be integrated into the marketplace to ensure fair and transparent data valuation, particularly to prevent the exploitation of individuals who may be less data-literate or in vulnerable economic positions?</li>
+                        <li>What technical and legal enforcement mechanisms (e.g., advanced smart contracts, privacy-enhancing technologies, verifiable data usage audits) will the marketplace implement to ensure that data buyers strictly adhere to agreed-upon data usage limitations, purpose restrictions, and data minimization principles once personal data is sold or licensed?</li>
+                    </ul>
+                `}
+            ],
+            chartData: {
+                labels: ['Fair Data Valuation', 'Data Privacy & Security', 'Buyer Compliance', 'User Adoption & Trust', 'Regulatory Compliance', 'Governance (Decentralized)', 'Digital Divide & Equity', 'Ethical Commodification'],
+                datasets: [
+                    {
+                        label: 'Number of Mitigation Points (Illustrative)', // Each challenge has mitigation strategies mentioned in report
+                        data: [3,3,4,4,3,2,3,3], // Illustrative counts based on density of mitigation discussion
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)', // emerald-500
+                    }
+                ]
+            }
+        },
+        "invention-mie": {
+            title: "MIE (Mindful Intelligent Entity)",
+            introduction: "<p>MIE is a conceptual AI invention, likely an advanced AI companion focused on mindfulness and well-being. Due to limited public information, this section explores its potential based on its name and relation to broader AI themes like companionship, ethical alignment, and privacy.</p>",
+            tabs: [
+                { id: "mie-concept", label: "Concept & Available Info", content: `
+                    <h4>Concept and Available Information</h4>
+                    <p>The Mindful Intelligent Entity (MIE) is one of the AI inventions mentioned in connection with Aaron Perkins; however, access to a detailed whitepaper or comprehensive description was unavailable. Consequently, the analysis of MIE must be based on its suggestive name and its relationship to broader themes and technologies discussed in the provided research materials. The name "Mindful Intelligent Entity" strongly implies an AI system designed with capabilities related to awareness, presence, and potentially advanced emotional intelligence or a capacity for fostering mindfulness in its users.</p>
+                    <p>The term "Mindful" suggests a focus on present-moment awareness, non-judgmental observation of thoughts and feelings. As an "Intelligent Entity," MIE could be an advanced AI companion, a sophisticated personal advisor, or an autonomous system for promoting well-being and personal growth.</p>
+                `},
+                { id: "mie-themes", label: "Relation to Broader Themes", content: `
+                    <h4>Relation to Broader Themes</h4>
+                    <p>Given its name and potential purpose, MIE connects to several significant themes in AI development and ethics:</p>
+                    <ul>
+                        <li><strong>AI Companionship</strong>: Aligns with the evolving field of AI companions, raising ethical issues of emotional dependency and social isolation.</li>
+                        <li><strong>Ethical AI Development and Alignment</strong>: How would a "Mindful" AI be programmed for user well-being and avoid harm? This involves "socioaffective alignment."</li>
+                        <li><strong>AI, Emotional Intelligence, and Self-Reflection</strong>: Connects to the Emotional Self-Reflection Toolkit, and the challenge of AI understanding or simulating emotions and self-awareness. Neuroscientist Antonio Damasio's views on consciousness linked to biology are pertinent.</li>
+                        <li><strong>Data Privacy for Advanced AI Advisors</strong>: An "always-on" advisor integrated with wearables would have critical data privacy needs.</li>
+                    </ul>
+                `},
+                { id: "mie-implications", label: "Potential Implications & Questions", content: `
+                    <h4>Potential Questions Arising from the Concept</h4>
+                    <p>In the absence of detailed specifications for MIE, its conceptual outline prompts several critical questions:</p>
+                    <ul>
+                        <li>What is the operational definition of "mindful" for this AI?</li>
+                        <li>How would MIE ensure user autonomy and prevent unhealthy dependencies?</li>
+                        <li>What personal data would MIE collect, and how would it be safeguarded?</li>
+                        <li>How would MIE's "mindfulness" be validated as genuinely beneficial?</li>
+                    </ul>
+                    <p>The idea of an MIE confronts philosophical and ethical frontiers of AI personification, challenging whether AI can embody states like mindfulness. It blurs lines between AI as a tool and companion, potentially leading to user misinterpretation. Ensuring an MIE "never manipulates or oversteps" is an immense technical and ethical undertaking, requiring dynamic adaptation and robust user controls to manage "socioaffective alignment."</p>
+                `},
+                 { id: "mie-questions", label: "Critical Questions", content: `
+                    <h4>Critical Questions for MIE</h4>
+                    <ul>
+                        <li>What is the precise operational definition of "mindful" as it applies to an AI entity? What specific computational processes or behavioral outputs would characterize MIE's mindfulness, and what safeguards will be implemented to prevent MIE from creating unhealthy emotional dependencies, subtly manipulating user behavior, or causing psychological distress, even if operating with benign intent?</li>
+                        <li>How will the long-term impact of continuous interaction with MIE on a user's psychological well-being, social skill development, and overall life satisfaction be systematically monitored, assessed, and addressed, particularly given the potential for deep integration into a user's life?</li>
+                    </ul>
+                `}
+            ]
+        },
+        themes: {
+            title: "Cross-Cutting Themes and Broader Implications",
+            introduction: "<p>The AI inventions portfolio illuminates several critical cross-cutting themes: the need for robust ethical frameworks for advanced AI, the evolving landscape of intellectual property in an AI-driven world, and the changing nature of human-AI relationships. These themes are crucial for understanding the broader societal impact of such technologies.</p>",
+            content: `
+                <h2>A. Ethical Frameworks for Advanced AI Systems</h2>
+                <p>A consistent thread across the portfolio is the engagement with complex ethical considerations, necessitating robust frameworks to guide the development and deployment of these AI systems.</p>
+                <ul>
+                    <li><strong>Privacy and Confidentiality</strong>: Paramount for all inventions processing sensitive personal data. Requires stringent security and meaningful informed consent.</li>
+                    <li><strong>Autonomy and Human Agency</strong>: Inventions interact with human autonomy, aiming to empower (HAEPA, Data Marketplace) but risking diminished skills or over-reliance (Toolkit, MIE). AI should augment, not replace, human judgment.</li>
+                    <li><strong>Safety and Efficacy</strong>: AI interventions must be safe and effective, especially in emotional well-being or legal/therapeutic contexts. Risk of harm from misinterpretation.</li>
+                    <li><strong>Bias and Fairness</strong>: AI systems are susceptible to perpetuating biases. Critical for AI NARA, HAEPA (detection tools), MIE, and Toolkit. Requires diverse data and mitigation strategies.</li>
+                    <li><strong>Transparency and Explainability (XAI)</strong>: Crucial for trust and accountability, especially for AI NARA and HAEPA (detection tools).</li>
+                    <li><strong>Accountability</strong>: Establishing clear lines of accountability for AI-driven outcomes is complex.</li>
+                </ul>
+                <p>The interconnectedness of these inventions creates a web of ethical dependencies, suggesting a holistic ethical review of the entire portfolio is needed.</p>
+                <h3>Table 4: Ethical Principles for AI Wellness & Companionship</h3>
+                <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ethical Principle</th>
+                            <th>Relevance to Perkins' Inventions</th>
+                            <th>Key Concerns</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Beneficence</strong> (Do good)</td><td>MIE, Emotional Toolkit, AI NARA (therapeutic) aim to improve well-being.</td><td>Ensuring tools genuinely benefit; risk of harmful advice from AI misinterpretation.</td></tr>
+                        <tr><td><strong>Non-Maleficence</strong> (Do no harm)</td><td>Critical for systems interacting with emotional/mental health.</td><td>Risk of over-reliance, social isolation, harm from biased AI or privacy breaches.</td></tr>
+                        <tr><td><strong>Autonomy</strong> (Respect for self-governance)</td><td>Users should control data and interaction; decisions based on AI insights are user's.</td><td>Risk of AI manipulation or dependency undermining autonomy; ensuring informed consent.</td></tr>
+                        <tr><td><strong>Justice</strong> (Fairness and equity)</td><td>AI tools should be accessible and beneficial to all, without bias.</td><td>Algorithmic bias harming groups; unequal access widening disparities.</td></tr>
+                        <tr><td><strong>Privacy & Confidentiality</strong></td><td>Emotional/therapeutic data are extremely sensitive.</td><td>Robust data security, encryption, clear policies essential; risks of re-identification.</td></tr>
+                        <tr><td><strong>Transparency & Explainability</strong></td><td>Users/therapists should understand AI workings, limitations, basis for suggestions.</td><td>"Black box" AI erodes trust; clear disclosure of AI involvement needed.</td></tr>
+                        <tr><td><strong>Human Oversight & Therapeutic Alliance</strong></td><td>AI should augment, not replace, human connection/professional judgment.</td><td>Maintaining primacy of human therapeutic relationship; AI lacks true empathy.</td></tr>
+                    </tbody>
+                </table>
+                </div>
+                <div class="chart-container my-6 h-[300px] md:h-[350px]"><canvas id="ethicalPrinciplesChart"></canvas></div>
+
+                <h2>B. Intellectual Property in an AI-Driven World</h2>
+                <p>HAEPA and creative outputs from the Toolkit or MIE intersect with evolving IP law, especially copyright.</p>
+                <ul>
+                    <li><strong>Copyright for AI-Assisted/Generated Content</strong>: Human authorship is essential for US copyright. AI is a tool; creative choices must be human. Merely prompting AI is often insufficient for authorship.</li>
+                    <li><strong>Defining "Authorship"</strong>: Legal definition means a human being, challenging for substantial AI contributions.</li>
+                    <li><strong>Fair Use and Training Data</strong>: Training AI on copyrighted data is a major legal debate (fair use vs. infringement).</li>
+                    <li><strong>Potential Misuse and Market Impact</strong>: Concerns about market saturation, devaluation of human creativity, and AI mimicking artists.</li>
+                </ul>
+                <p>HAEPA protects AI-assisted expression from discrimination, distinct from copyright ownership. An expression might be protected by HAEPA but not ownable under copyright if human input is insufficient.</p>
+
+                <h2>C. The Evolving Human-AI Relationship</h2>
+                <p>MIE and the Emotional Toolkit engage with AI in emotional, therapeutic, and advisory capacities.</p>
+                <ul>
+                    <li><strong>AI Companionship and Emotional Dependency</strong>: AI companions offer benefits but risk unhealthy dependency, social isolation, and unrealistic expectations of human relationships.</li>
+                    <li><strong>AI in Therapeutic and Advisory Roles</strong>: Current AI lacks true empathy and deep emotional understanding for these roles. AI should augment human professionals.</li>
+                    <li><strong>Socioaffective Alignment</strong>: For long-term AI companions like MIE, ensuring the AI supports user well-being and autonomy while adapting to evolving user needs is critical.</li>
+                    <li><strong>AI and Self-Reflection</strong>: Whether AI can enable genuine self-reflection is debatable.</li>
+                </ul>
+                <p>This portfolio points to deeply integrated human-AI interaction, blurring lines and necessitating re-evaluation of human experience and proactive adaptation of legal, ethical, and societal frameworks.</p>
+            `,
+            chartData: {
+                labels: ['Beneficence', 'Non-Maleficence', 'Autonomy', 'Justice', 'Privacy', 'Transparency', 'Human Oversight'],
+                datasets: [{
+                    label: 'Ethical Principles Discussed',
+                    data: [1,1,1,1,1,1,1], // Each principle is one item
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.7)',
+                        'rgba(16, 185, 129, 0.7)',
+                        'rgba(245, 158, 11, 0.7)',
+                        'rgba(239, 68, 68, 0.7)',
+                        'rgba(139, 92, 246, 0.7)',
+                        'rgba(20, 184, 166, 0.7)',
+                        'rgba(217, 70, 239, 0.7)'
+                    ],
+                    hoverOffset: 4
+                }]
+            }
+        },
+        assessment: {
+            title: "Critical Assessment and Key Questions",
+            introduction: "<p>This section provides a synthesized critique of Aaron Perkins' AI invention portfolio, highlighting innovative potential alongside significant risks and practical hurdles. It culminates in a series of critical questions aimed at fostering deeper reflection on the implications of these concepts.</p>",
+            content: `
+                <h4>Synthesized Critique</h4>
+                <p>The AI inventions by Aaron Perkins show notable <strong>innovative potential</strong>, often addressing complex emerging needs. HAEPA anticipates challenges in AI-assisted communication; the Emotional Toolkit and MIE aim for AI-enhanced well-being; AI NARA offers a novel evidence analysis approach; and the User-Initiated Data Marketplace seeks data empowerment.</p>
+                <p>However, this is counterbalanced by <strong>significant risks and practical hurdles</strong>:</p>
+                <ul>
+                    <li><strong>Technical Feasibility and "Reality Gap"</strong>: A gap exists between ambitious goals (e.g., AI NARA's "truth" discernment, MIE's "mindfulness") and current AI capabilities. AI struggles with deep context, emotional nuance, and unbiased interpretation.</li>
+                    <li><strong>Ethical Complexity and Governance</strong>: Profound ethical dilemmas regarding data privacy, algorithmic bias, user autonomy, manipulation, and accountability demand ongoing scrutiny and robust governance.</li>
+                    <li><strong>Implementation Challenges</strong>: Legislative proposals like HAEPA face legal debate. Data marketplaces face hurdles in adoption, valuation, and compliance.</li>
+                </ul>
+                <p>An overarching concern is AI's potential to <strong>misinterpret complex human realities</strong> (emotions, truth, intent). Reliance on AI in sensitive domains requires caution.</p>
+
+                <h4>General Critical Questions for the Portfolio</h4>
+                 <ul>
+                    <li>Given the noted inaccessibility of detailed whitepapers for some inventions, what is the current stage of development, empirical validation, and peer review for these concepts? Are there prototypes, pilot studies, or datasets that demonstrate their feasibility and efficacy?</li>
+                    <li>How does the proposer, Aaron Perkins, envision the potential integration or interoperability of these diverse tools (e.g., MIE utilizing the Emotional Self-Reflection Toolkit, or data from the Marketplace training AI NARA)? What overarching ethical framework and governance model guides the collective development, potential deployment, and responsible innovation across this entire portfolio of AI inventions?</li>
+                </ul>
+                <p>The critical questions posed throughout this review reveal a common tension: a significant gap often exists between the ambitious, human-centric aspirations of these AI inventions and the current practical, technical, and ethical limitations of AI. Bridging this chasm requires technological advancement, interdisciplinary collaboration, and societal deliberation on AI's acceptable roles and safeguards.</p>
+            `
+        },
+        conclusion: {
+            title: "Concluding Remarks and Forward Outlook",
+            introduction: "<p>The portfolio of AI inventions by Aaron Perkins demonstrates a significant ambition to address contemporary and future challenges. While holding potential for positive disruption, these concepts are intrinsically linked with significant risks and complex ethical considerations that require careful navigation.</p>",
+            content: `
+                <p>The portfolio of AI-based inventions attributed to Aaron Perkins, encompassing legislative proposals like HAEPA, tools for emotional well-being such as the Emotional Self-Reflection Toolkit and the conceptual MIE, AI-driven analytical systems like AI NARA, and platforms for data empowerment like the User-Initiated Data Marketplace, demonstrates a significant ambition to address contemporary and future challenges at the intersection of technology and human experience. These concepts exhibit a dual nature: they hold considerable potential for positive disruption and societal benefit, yet they are intrinsically linked with significant risks and complex ethical considerations.</p>
+                <p>While inventions like HAEPA aim to protect emerging forms of human expression in an AI-suffused world, and tools like AI NARA or the Emotional Toolkit seek to leverage AI for deeper understanding or improved well-being, their responsible development and deployment are contingent upon resolving multifaceted technical, ethical, and practical challenges. These challenges, as detailed throughout this application, include ensuring the accuracy and fairness of AI systems, safeguarding user privacy and autonomy, defining the boundaries of intellectual property for AI-assisted creations, and managing the psychological and social impacts of increasingly intimate human-AI relationships.</p>
+                <p>The journey of integrating such deeply impactful AI into the fabric of society necessitates a cautious, iterative, and highly deliberative approach. It requires more than technological ingenuity; it demands ongoing dialogue involving diverse stakeholders, robust interdisciplinary research, adaptable ethical oversight mechanisms, and a steadfast commitment to user-centric design principles. The overarching priority must be the promotion of human well-being, the upholding of fairness and justice, and the preservation of individual autonomy, ensuring these values guide technological advancement rather than being compromised by it.</p>
+                <p>The questions and concerns raised by this particular portfolio of AI inventions are not unique to these specific concepts but are reflective of broader societal questions about the future role of AI. They are central to the ongoing effort to shape a future where artificial intelligence serves humanity beneficially, equitably, and responsibly. The path forward requires a continuous process of critical inquiry, ethical reflection, and collaborative problem-solving to ensure that the evolution of AI aligns with fundamental human values and contributes positively to the human condition.</p>
+            `
+        }
+    };
+
+    const contentHost = document.getElementById('contentHost');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const inventionDropdownItems = document.querySelectorAll('.invention-dropdown-item');
+    const mobileMenuButton = document.getElementById('mobileMenuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    let currentCharts = [];
+
+    function clearCharts() {
+        currentCharts.forEach(chart => chart.destroy());
+        currentCharts = [];
+    }
+
+    function renderContent(pageKey) {
+        clearCharts();
+        const pageData = appData[pageKey] || appData.overview;
+        let html = `<div class="content-section"><h1>${pageData.title}</h1>`;
+        if (pageData.introduction) {
+            html += `<div class="prose prose-slate max-w-none mb-6">${pageData.introduction}</div>`;
+        }
+
+        if (pageKey.startsWith('invention-') && pageData.tabs) {
+            html += `<div class="mb-4 border-b border-slate-200">
+                        <nav class="-mb-px flex space-x-4 overflow-x-auto" aria-label="Tabs">`;
+            pageData.tabs.forEach((tab, index) => {
+                html += `<button class="tab-button ${index === 0 ? 'active' : ''}" data-tab-target="invention-${pageKey.split('-')[1]}-${tab.id}">${tab.label}</button>`;
+            });
+            html += `</nav></div>`;
+            pageData.tabs.forEach((tab, index) => {
+                html += `<div id="invention-${pageKey.split('-')[1]}-${tab.id}" class="tab-content ${index === 0 ? '' : 'hidden'}">
+                            <div class="prose prose-slate max-w-none">${tab.content}</div>
+                         </div>`;
+            });
+        } else {
+             html += `<div class="prose prose-slate max-w-none">${pageData.content || ''}</div>`;
+        }
+        html += `</div>`;
+        contentHost.innerHTML = html;
+
+        if (pageKey.startsWith('invention-') && pageData.chartData) {
+            if (pageKey === 'invention-haepa') {
+                renderHaepaChart(pageData.chartData);
+            } else if (pageKey === 'invention-marketplace') {
+                renderMarketplaceChart(pageData.chartData);
+            }
+        } else if (pageKey === 'themes' && pageData.chartData) {
+            renderEthicalPrinciplesChart(pageData.chartData);
+        }
+        
+        attachTabButtonListeners();
+        updateActiveNav(pageKey);
+    }
+    
+    function attachTabButtonListeners() {
+        const tabButtons = contentHost.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const targetId = button.getAttribute('data-tab-target');
+                contentHost.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                    if (content.id === targetId) {
+                        content.classList.remove('hidden');
+                    }
+                });
+            });
+        });
+    }
+
+    function renderHaepaChart(chartData) {
+        const ctx = document.getElementById('haepaChart')?.getContext('2d');
+        if (!ctx) return;
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Points' }
+                    },
+                    y: {
+                         ticks: { 
+                            autoSkip: false,
+                            callback: function(value) {
+                                let label = this.getLabelForValue(value);
+                                return label.length > 20 ? label.substring(0, 20) + '...' : label;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'HAEPA: Arguments For vs. Against (Summary)' }
+                }
+            }
+        });
+        currentCharts.push(chart);
+    }
+
+    function renderMarketplaceChart(chartData) {
+        const ctx = document.getElementById('marketplaceChart')?.getContext('2d');
+        if (!ctx) return;
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+             options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Mitigation Points (Illustrative)' }
+                    },
+                    y: {
+                        ticks: { 
+                            autoSkip: false,
+                            font: {size: 10},
+                            callback: function(value) {
+                                let label = this.getLabelForValue(value);
+                                return label.length > 25 ? label.substring(0, 25) + '...' : label;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Data Marketplace: Challenges & Mitigation Focus' }
+                }
+            }
+        });
+        currentCharts.push(chart);
+    }
+    
+    function renderEthicalPrinciplesChart(chartData) {
+        const ctx = document.getElementById('ethicalPrinciplesChart')?.getContext('2d');
+        if (!ctx) return;
+        const chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Ethical Principles Discussed' }
+                }
+            }
+        });
+        currentCharts.push(chart);
+    }
+
+    function updateActiveNav(targetKey) {
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-target') === targetKey || (targetKey.startsWith('invention-') && link.id === 'inventionsNavButton')) {
+                link.classList.add('active');
+            }
+        });
+         // For mobile menu
+        document.querySelectorAll('#mobileMenu .nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-target') === targetKey) {
+                link.classList.add('active');
+            }
+        });
+
+        // For invention dropdown items (desktop)
+        inventionDropdownItems.forEach(item => {
+            item.classList.remove('bg-sky-200', 'font-semibold'); // Remove active styling
+            if (item.getAttribute('data-target') === targetKey) {
+                item.classList.add('bg-sky-200', 'font-semibold'); // Add active styling
+            }
+        });
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const target = e.target.closest('.nav-link').getAttribute('data-target');
+            if (target) {
+                 renderContent(target);
+                 if (mobileMenu.classList.contains('hidden') === false) {
+                    mobileMenu.classList.add('hidden');
+                 }
+            }
+        });
+    });
+    
+    inventionDropdownItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            const target = e.target.getAttribute('data-target');
+            if (target) {
+                renderContent(target);
+                document.getElementById('inventionsDropdown').classList.add('hidden');
+                 // Update main inventions button to active
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.getElementById('inventionsNavButton').classList.add('active');
+            }
+        });
+    });
+    
+    // Mobile menu toggle
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Mobile menu links
+    document.querySelectorAll('#mobileMenu .nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const target = e.target.getAttribute('data-target');
+            renderContent(target);
+            mobileMenu.classList.add('hidden'); // Hide menu after click
+        });
+    });
+
+
+    // Initial content load
+    renderContent('overview');
+
+</script>
+</body>
+</html>
