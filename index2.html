@@ -11,16 +11,16 @@
             font-family: 'Inter', sans-serif;
         }
         .nav-link {
-            @apply px-4 py-2 text-slate-700 hover:bg-sky-100 hover:text-sky-700 rounded-md transition-colors duration-200;
+            @apply px-4 py-2 text-rose-700 hover:bg-rose-100 hover:text-rose-700 rounded-md transition-colors duration-200;
         }
         .nav-link.active {
-            @apply bg-sky-600 text-white hover:bg-sky-700;
+            @apply bg-rose-600 text-white hover:bg-rose-700;
         }
         .tab-button {
-            @apply px-4 py-2 text-slate-600 font-medium border-b-2 border-transparent hover:border-sky-500 hover:text-sky-600 transition-colors duration-200;
+            @apply px-4 py-2 text-rose-600 font-medium border-b-2 border-transparent hover:border-rose-500 hover:text-rose-600 transition-colors duration-200;
         }
         .tab-button.active {
-            @apply border-sky-600 text-sky-700;
+            @apply border-rose-600 text-rose-700;
         }
         .content-section {
             @apply p-6 bg-white rounded-lg shadow-lg;
@@ -39,43 +39,44 @@
                 height: 350px;
             }
         }
-        h1, h2, h3, h4 { @apply text-slate-800; }
+        h1, h2, h3, h4 { @apply text-rose-800; }
         h1 { @apply text-3xl font-bold mb-6; }
         h2 { @apply text-2xl font-semibold mb-4 mt-6; }
         h3 { @apply text-xl font-semibold mb-3 mt-4; }
         h4 { @apply text-lg font-semibold mb-2 mt-3; }
-        p { @apply mb-4 leading-relaxed text-slate-700; }
-        ul { @apply list-disc list-inside mb-4 pl-4 text-slate-700; }
+        p { @apply mb-4 leading-relaxed text-rose-700; }
+        ul { @apply list-disc list-inside mb-4 pl-4 text-rose-700; }
         table { @apply w-full border-collapse mb-4; }
-        th, td { @apply border border-slate-300 p-2 text-left text-sm text-slate-700; }
-        th { @apply bg-slate-100 font-semibold; }
+        th, td { @apply border border-rose-200 p-2 text-left text-sm text-rose-700; }
+        th { @apply bg-rose-100 font-semibold; }
         .invention-nav-button {
-            @apply w-full text-left px-4 py-3 text-slate-700 hover:bg-sky-100 hover:text-sky-700 rounded-md transition-colors duration-200;
+            @apply w-full text-left px-4 py-3 text-rose-700 hover:bg-rose-100 hover:text-rose-700 rounded-md transition-colors duration-200;
         }
         .invention-nav-button.active {
-            @apply bg-sky-600 text-white hover:bg-sky-700;
+            @apply bg-rose-600 text-white hover:bg-rose-700;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-700">
+<body class="bg-gradient-to-b from-rose-100 via-white to-rose-50 text-rose-700">
 
-    <header class="bg-white shadow-md sticky top-0 z-50">
+    <header class="bg-gradient-to-r from-rose-600 via-rose-500 to-rose-400 shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <h1 class="text-xl font-bold text-sky-700">AI Inventions: An Interactive Review</h1>
+                    <h1 class="text-xl font-bold text-white tracking-wide drop-shadow-sm">
+                        <span class="inline-block px-2 py-1 bg-white/20 rounded">AI Inventions: An Interactive Review</span>
+                    </h1>
                 </div>
-                <!-- SPACING INCREASED HERE: space-x-8 -->
                 <nav class="hidden md:flex space-x-8">
                     <button class="nav-link active" data-target="overview">Overview</button>
                     <div class="relative group">
                         <button class="nav-link" id="inventionsNavButton">Inventions <span class="text-xs">&#9662;</span></button>
                         <div id="inventionsDropdown" class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden group-hover:block">
-                            <button class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-100 w-full text-left invention-dropdown-item" data-target="invention-haepa">HAEPA</button>
-                            <button class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-100 w-full text-left invention-dropdown-item" data-target="invention-toolkit">Emotional Toolkit</button>
-                            <button class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-100 w-full text-left invention-dropdown-item" data-target="invention-nara">AI NARA</button>
-                            <button class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-100 w-full text-left invention-dropdown-item" data-target="invention-marketplace">Data Marketplace</button>
-                            <button class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-100 w-full text-left invention-dropdown-item" data-target="invention-mie">MIE</button>
+                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-haepa">HAEPA</button>
+                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-toolkit">Emotional Toolkit</button>
+                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-nara">AI NARA</button>
+                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-marketplace">Data Marketplace</button>
+                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-mie">MIE</button>
                         </div>
                     </div>
                     <button class="nav-link" data-target="themes">Cross-Cutting Themes</button>
@@ -83,7 +84,7 @@
                     <button class="nav-link" data-target="conclusion">Conclusion</button>
                 </nav>
                 <div class="md:hidden">
-                    <button id="mobileMenuButton" class="text-slate-700 hover:text-sky-700 focus:outline-none">
+                    <button id="mobileMenuButton" class="text-white hover:text-rose-100 focus:outline-none">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                         </svg>
@@ -112,13 +113,12 @@
         </div>
     </main>
 
-    <footer class="bg-slate-800 text-slate-300 text-center p-4 mt-12">
+    <footer class="bg-rose-700 text-rose-100 text-center p-4 mt-12">
         <p class="text-sm">&copy; 2025 Interactive Summary of AI Inventions Review. Based on the report by Aaron Perkins.</p>
     </footer>
 
-    <!-- Your JavaScript goes here (left unchanged) -->
-    <!-- ... everything below here is identical to your last script ... -->
-    <!-- ... script omitted for brevity, since only nav spacing changed ... -->
+    <!-- Your JS remains unchanged, only the color palette has been swapped for "red Kool-Aid" flavor. -->
+    <!-- ... (script logic stays the same) ... -->
 
 </body>
 </html>
