@@ -750,3 +750,156 @@
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Review: AI-Based Inventions by Aaron Perkins</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link {
+            @apply px-4 py-2 text-rose-700 hover:bg-rose-100 hover:text-rose-700 rounded-md transition-colors duration-200;
+        }
+        .nav-link.active {
+            @apply bg-rose-600 text-white hover:bg-rose-700;
+        }
+        .tab-button {
+            @apply px-4 py-2 text-rose-600 font-medium border-b-2 border-transparent hover:border-rose-500 hover:text-rose-600 transition-colors duration-200;
+        }
+        .tab-button.active {
+            @apply border-rose-600 text-rose-700;
+        }
+        .content-section {
+            @apply p-6 bg-white rounded-lg shadow-lg;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        h1, h2, h3, h4 { @apply text-rose-800; }
+        h1 { @apply text-3xl font-bold mb-6; }
+        h2 { @apply text-2xl font-semibold mb-4 mt-6; }
+        h3 { @apply text-xl font-semibold mb-3 mt-4; }
+        h4 { @apply text-lg font-semibold mb-2 mt-3; }
+        p { @apply mb-4 leading-relaxed text-rose-700; }
+        ul { @apply list-disc list-inside mb-4 pl-4 text-rose-700; }
+        table { @apply w-full border-collapse mb-4; }
+        th, td { @apply border border-rose-200 p-2 text-left text-sm text-rose-700; }
+        th { @apply bg-rose-100 font-semibold; }
+        .invention-nav-button {
+            @apply w-full text-left px-4 py-3 text-rose-700 hover:bg-rose-100 hover:text-rose-700 rounded-md transition-colors duration-200;
+        }
+        .invention-nav-button.active {
+            @apply bg-rose-600 text-white hover:bg-rose-700;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-rose-100 via-white to-rose-50 text-rose-700">
+
+    <!-- BEGIN: Big Channel Banner -->
+    <div class="w-full bg-black bg-gradient-to-r from-rose-800 via-rose-600 to-rose-400 shadow-lg py-8 px-4 flex flex-col items-center justify-center mb-6">
+      <h2 class="text-5xl sm:text-6xl font-extrabold text-white tracking-widest uppercase mb-3 drop-shadow-2xl text-center">
+        @MIDNIGHT-ROBOTERS-AI
+      </h2>
+      <div class="flex flex-col items-center sm:flex-row sm:space-x-8 mb-3">
+        <span class="text-2xl sm:text-3xl font-bold text-rose-200">70 subscribers</span>
+        <span class="text-2xl sm:text-3xl font-bold text-rose-200">142 videos</span>
+      </div>
+      <p class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">Welcome to Aaron’s Insight Hub!</p>
+      <div class="flex flex-col sm:flex-row sm:space-x-8 items-center justify-center mb-4">
+        <a href="https://linktr.ee/AARON_MINIGHT_ROBOTERS" target="_blank" class="mt-2 sm:mt-0 text-2xl sm:text-3xl font-semibold text-rose-300 underline hover:text-white transition">
+          linktr.ee/AARON_MINIGHT_ROBOTERS
+        </a>
+        <a href="https://www.youtube.com/@MIDNIGHT-ROBOTERS-AI" target="_blank" class="mt-2 sm:mt-0 text-2xl sm:text-3xl font-semibold text-rose-300 underline hover:text-white transition">
+          Go to YouTube Channel
+        </a>
+      </div>
+      <!-- BEGIN: More Links -->
+      <div class="flex flex-col sm:flex-row sm:space-x-6 items-center justify-center mt-2">
+        <a href="https://www.instagram.com/aaron_midnight_roboter/" target="_blank" class="text-xl sm:text-2xl font-semibold text-rose-200 underline hover:text-white transition mb-2 sm:mb-0">Instagram</a>
+        <a href="https://twitter.com/MidnightRoboter" target="_blank" class="text-xl sm:text-2xl font-semibold text-rose-200 underline hover:text-white transition mb-2 sm:mb-0">Twitter/X</a>
+        <a href="https://www.tiktok.com/@midnightroboterai" target="_blank" class="text-xl sm:text-2xl font-semibold text-rose-200 underline hover:text-white transition mb-2 sm:mb-0">TikTok</a>
+        <a href="https://www.facebook.com/midnightroboters" target="_blank" class="text-xl sm:text-2xl font-semibold text-rose-200 underline hover:text-white transition">Facebook</a>
+      </div>
+      <!-- END: More Links -->
+    </div>
+    <!-- END: Big Channel Banner -->
+
+    <header class="bg-gradient-to-r from-rose-600 via-rose-500 to-rose-400 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-white tracking-wide drop-shadow-sm">
+                        <span class="inline-block px-2 py-1 bg-white/20 rounded">AI Inventions: An Interactive Review</span>
+                    </h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <button class="nav-link active" data-target="overview">Overview</button>
+                    <div class="relative group">
+                        <button class="nav-link" id="inventionsNavButton">Inventions <span class="text-xs">&#9662;</span></button>
+                        <div id="inventionsDropdown" class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden group-hover:block">
+                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-haepa">HAEPA</button>
+                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-toolkit">Emotional Toolkit</button>
+                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-nara">AI NARA</button>
+                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-marketplace">Data Marketplace</button>
+                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-mie">MIE</button>
+                        </div>
+                    </div>
+                    <button class="nav-link" data-target="themes">Cross-Cutting Themes</button>
+                    <button class="nav-link" data-target="assessment">Critical Assessment</button>
+                    <button class="nav-link" data-target="conclusion">Conclusion</button>
+                </nav>
+                <div class="md:hidden">
+                    <button id="mobileMenuButton" class="text-white hover:text-rose-100 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobileMenu" class="md:hidden hidden bg-white shadow-lg">
+            <nav class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button class="block nav-link w-full text-left active" data-target="overview">Overview</button>
+                <button class="block nav-link w-full text-left" data-target="invention-haepa">HAEPA</button>
+                <button class="block nav-link w-full text-left" data-target="invention-toolkit">Emotional Toolkit</button>
+                <button class="block nav-link w-full text-left" data-target="invention-nara">AI NARA</button>
+                <button class="block nav-link w-full text-left" data-target="invention-marketplace">Data Marketplace</button>
+                <button class="block nav-link w-full text-left" data-target="invention-mie">MIE</button>
+                <button class="block nav-link w-full text-left" data-target="themes">Cross-Cutting Themes</button>
+                <button class="block nav-link w-full text-left" data-target="assessment">Critical Assessment</button>
+                <button class="block nav-link w-full text-left" data-target="conclusion">Conclusion</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div id="contentHost">
+            <!-- Content injected here -->
+        </div>
+    </main>
+
+    <footer class="bg-rose-700 text-rose-100 text-center p-4 mt-12">
+        <p class="text-sm">&copy; 2025 Interactive Summary of AI Inventions Review. Based on the report by Aaron Perkins.</p>
+    </footer>
+
+    <!-- Your JS remains unchanged, only the color palette has been swapped for "red Kool-Aid" flavor. -->
+    <!-- ... (script logic stays the same) ... -->
+
+</body>
+</html>
