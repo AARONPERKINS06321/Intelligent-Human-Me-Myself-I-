@@ -1,152 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Review: AI-Based Inventions by Aaron Perkins</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .nav-link {
-            @apply px-4 py-2 text-rose-700 hover:bg-rose-100 hover:text-rose-700 rounded-md transition-colors duration-200;
-        }
-        .nav-link.active {
-            @apply bg-rose-600 text-white hover:bg-rose-700;
-        }
-        .tab-button {
-            @apply px-4 py-2 text-rose-600 font-medium border-b-2 border-transparent hover:border-rose-500 hover:text-rose-600 transition-colors duration-200;
-        }
-        .tab-button.active {
-            @apply border-rose-600 text-rose-700;
-        }
-        .content-section {
-            @apply p-6 bg-white rounded-lg shadow-lg;
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-        h1, h2, h3, h4 { @apply text-rose-800; }
-        h1 { @apply text-3xl font-bold mb-6; }
-        h2 { @apply text-2xl font-semibold mb-4 mt-6; }
-        h3 { @apply text-xl font-semibold mb-3 mt-4; }
-        h4 { @apply text-lg font-semibold mb-2 mt-3; }
-        p { @apply mb-4 leading-relaxed text-rose-700; }
-        ul { @apply list-disc list-inside mb-4 pl-4 text-rose-700; }
-        table { @apply w-full border-collapse mb-4; }
-        th, td { @apply border border-rose-200 p-2 text-left text-sm text-rose-700; }
-        th { @apply bg-rose-100 font-semibold; }
-        .invention-nav-button {
-            @apply w-full text-left px-4 py-3 text-rose-700 hover:bg-rose-100 hover:text-rose-700 rounded-md transition-colors duration-200;
-        }
-        .invention-nav-button.active {
-            @apply bg-rose-600 text-white hover:bg-rose-700;
-        }
-    </style>
-</head>
-<body class="bg-gradient-to-b from-rose-100 via-white to-rose-50 text-rose-700">
+<section class="content-section bg-white rounded-lg shadow-lg p-6 mb-8">
+  <h2 class="text-3xl font-bold text-rose-800 mb-4">Meet Aaron: The Last Romantic Standing</h2>
+  <p class="mb-4 text-rose-700">Are You Ready for a Love Story Worthy of a Website?</p>
+  <p class="mb-4 text-rose-700">Greetings, curious internet traveler!<br>
+  If you’re reading this, fate—and possibly Google—has brought you here for a reason. My name is Aaron, and yes, I built this website because the universe clearly needed a place where the last genuine romantic on earth could hang his digital hat.</p>
+  <p class="mb-4 text-rose-700">Let’s just get this out of the way: I’m not here to “Netflix and chill.” I’m here to Picnic and Thrill. I don’t want to “just see where things go.” I want to drive this thing like a rented convertible on the Amalfi Coast—with you riding shotgun, hair blowing, laughter filling the air, and at least three wrong turns because I ignored Google Maps (again).</p>
+  
+  <h3 class="text-xl font-semibold text-rose-800 mt-6 mb-3">About Me:</h3>
+  <ul class="list-disc pl-8 mb-4 text-rose-700">
+    <li>Tall enough to reach the top shelf (you’re welcome, cereal boxes everywhere).</li>
+    <li>House-trained and capable of complex domestic tasks, like cooking an edible dinner or remembering to water plants before they look like extras in The Walking Dead.</li>
+    <li>Romantically ambitious: My love language is all five love languages, plus a couple I made up myself, including “excessive breakfast-in-bed” and “random dance parties in the kitchen.”</li>
+    <li>My friends say I’m the human version of a golden retriever—loyal, affectionate, occasionally goofy, but always up for an adventure or a nap (bonus points if you like both).</li>
+  </ul>
 
-    <!-- BEGIN: Big Channel Banner -->
-    <div class="w-full bg-black bg-gradient-to-r from-rose-800 via-rose-600 to-rose-400 shadow-lg py-8 px-4 flex flex-col items-center justify-center mb-6">
-      <h2 class="text-5xl sm:text-6xl font-extrabold text-white tracking-widest uppercase mb-3 drop-shadow-2xl text-center">
-        @MIDNIGHT-ROBOTERS-AI
-      </h2>
-      <div class="flex flex-col items-center sm:flex-row sm:space-x-8 mb-3">
-        <span class="text-2xl sm:text-3xl font-bold text-rose-200">70 subscribers</span>
-        <span class="text-2xl sm:text-3xl font-bold text-rose-200">142 videos</span>
-      </div>
-      <p class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">Welcome to Aaron’s Insight Hub!</p>
-      <div class="flex flex-col sm:flex-row sm:space-x-8 items-center justify-center mb-4">
-        <a href="https://linktr.ee/AARON_MINIGHT_ROBOTERS" target="_blank" class="mt-2 sm:mt-0 text-2xl sm:text-3xl font-semibold text-rose-300 underline hover:text-white transition">
-          linktr.ee/AARON_MINIGHT_ROBOTERS
-        </a>
-        <a href="https://www.youtube.com/@MIDNIGHT-ROBOTERS-AI" target="_blank" class="mt-2 sm:mt-0 text-2xl sm:text-3xl font-semibold text-rose-300 underline hover:text-white transition">
-          Go to YouTube Channel
-        </a>
-      </div>
-      <!-- BEGIN: More Links -->
-      <div class="flex flex-col sm:flex-row sm:space-x-6 items-center justify-center mt-2">
-        <a href="https://www.instagram.com/aaron_midnight_roboter/" target="_blank" class="text-xl sm:text-2xl font-semibold text-rose-200 underline hover:text-white transition mb-2 sm:mb-0">Instagram</a>
-        <a href="https://twitter.com/MidnightRoboter" target="_blank" class="text-xl sm:text-2xl font-semibold text-rose-200 underline hover:text-white transition mb-2 sm:mb-0">Twitter/X</a>
-        <a href="https://www.tiktok.com/@midnightroboterai" target="_blank" class="text-xl sm:text-2xl font-semibold text-rose-200 underline hover:text-white transition mb-2 sm:mb-0">TikTok</a>
-        <a href="https://www.facebook.com/midnightroboters" target="_blank" class="text-xl sm:text-2xl font-semibold text-rose-200 underline hover:text-white transition">Facebook</a>
-      </div>
-      <!-- END: More Links -->
-    </div>
-    <!-- END: Big Channel Banner -->
+  <h3 class="text-xl font-semibold text-rose-800 mt-6 mb-3">What Am I Looking For?</h3>
+  <ul class="list-disc pl-8 mb-4 text-rose-700">
+    <li>A partner in crime (the legal, non-Netflix docuseries kind), someone who thinks life is better when shared.</li>
+    <li>Someone who’ll jump on a plane with me, or—if that’s too much—a spontaneous midnight road trip for pancakes.</li>
+    <li>Someone who believes love should be celebrated: with dinners, with trips, with handwritten notes left in shoes, with “just because” flowers and surprise serenades (you sing, I’ll clap off-beat).</li>
+    <li>Someone who understands that life is a bit ridiculous and love is the best joke of all (I promise to keep the dad jokes under control…ish).</li>
+  </ul>
 
-    <header class="bg-gradient-to-r from-rose-600 via-rose-500 to-rose-400 shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <h1 class="text-xl font-bold text-white tracking-wide drop-shadow-sm">
-                        <span class="inline-block px-2 py-1 bg-white/20 rounded">AI Inventions: An Interactive Review</span>
-                    </h1>
-                </div>
-                <nav class="hidden md:flex space-x-8">
-                    <button class="nav-link active" data-target="overview">Overview</button>
-                    <div class="relative group">
-                        <button class="nav-link" id="inventionsNavButton">Inventions <span class="text-xs">&#9662;</span></button>
-                        <div id="inventionsDropdown" class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden group-hover:block">
-                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-haepa">HAEPA</button>
-                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-toolkit">Emotional Toolkit</button>
-                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-nara">AI NARA</button>
-                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-marketplace">Data Marketplace</button>
-                            <button class="block px-4 py-2 text-sm text-rose-700 hover:bg-rose-100 w-full text-left invention-dropdown-item" data-target="invention-mie">MIE</button>
-                        </div>
-                    </div>
-                    <button class="nav-link" data-target="themes">Cross-Cutting Themes</button>
-                    <button class="nav-link" data-target="assessment">Critical Assessment</button>
-                    <button class="nav-link" data-target="conclusion">Conclusion</button>
-                </nav>
-                <div class="md:hidden">
-                    <button id="mobileMenuButton" class="text-white hover:text-rose-100 focus:outline-none">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div id="mobileMenu" class="md:hidden hidden bg-white shadow-lg">
-            <nav class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <button class="block nav-link w-full text-left active" data-target="overview">Overview</button>
-                <button class="block nav-link w-full text-left" data-target="invention-haepa">HAEPA</button>
-                <button class="block nav-link w-full text-left" data-target="invention-toolkit">Emotional Toolkit</button>
-                <button class="block nav-link w-full text-left" data-target="invention-nara">AI NARA</button>
-                <button class="block nav-link w-full text-left" data-target="invention-marketplace">Data Marketplace</button>
-                <button class="block nav-link w-full text-left" data-target="invention-mie">MIE</button>
-                <button class="block nav-link w-full text-left" data-target="themes">Cross-Cutting Themes</button>
-                <button class="block nav-link w-full text-left" data-target="assessment">Critical Assessment</button>
-                <button class="block nav-link w-full text-left" data-target="conclusion">Conclusion</button>
-            </nav>
-        </div>
-    </header>
+  <h3 class="text-xl font-semibold text-rose-800 mt-6 mb-3">What Makes Me the Best Catch Ever?</h3>
+  <ul class="list-disc pl-8 mb-4 text-rose-700">
+    <li>I don’t ghost—unless it’s Halloween and I’m in full bedsheet regalia.</li>
+    <li>My idea of romance is more “surprise trip to Paris” than “text you back eventually.”</li>
+    <li>I believe every woman should be loved loudly—with affection, respect, and possibly a lifetime supply of forehead kisses.</li>
+    <li>I’ll never say “I told you so.” (I will think it, but my face is very subtle.)</li>
+    <li>I’m basically a walking rom-com hero, minus the overdone hair gel and with 100% more willingness to do dishes.</li>
+  </ul>
 
-    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
-        <div id="contentHost">
-            <!-- Content injected here -->
-        </div>
-    </main>
-
-    <footer class="bg-rose-700 text-rose-100 text-center p-4 mt-12">
-        <p class="text-sm">&copy; 2025 Interactive Summary of AI Inventions Review. Based on the report by Aaron Perkins.</p>
-    </footer>
-
-    <!-- Your JS and Chart code stays here (not repeated for brevity) -->
-
-</body>
-</html>
+  <h3 class="text-xl font-semibold text-rose-800 mt-6 mb-3">Why Build a Whole Website?</h3>
+  <p class="mb-4 text-rose-700">Because the woman I’m looking for deserves a grand gesture—and, let’s face it, swiping left on me would be a tragedy for us both.</p>
+  <p class="mb-4 text-rose-700">So if you’re ready for real love, relentless laughter, and a life full of unforgettable moments, let’s make our own story—the kind you tell your grandkids (or at least the kind you humble-brag about at brunch).</p>
+  <p class="mb-4 text-rose-700">So what do you say? Ready to be loved, cherished, and whisked away—one corny joke at a time?</p>
+</section>
