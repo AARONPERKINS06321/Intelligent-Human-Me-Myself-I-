@@ -1,1 +1,335 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Analysis of Parental Alienation: Anonymized Case Study</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: "Neutral Professional" -->
+    <!-- Application Structure Plan: The SPA uses a dashboard-first approach. It opens with a high-level summary (donut chart, key metrics) to provide immediate context on the severity of the findings. Below this, an interactive "Strategy Explorer" section uses a filterable card-based grid to present each of the 17 signs. This allows for non-linear exploration. Clicking a card dynamically populates a "Detailed Evidence" section at the bottom, providing a seamless drill-down experience without page reloads. This structure was chosen to make a dense, text-heavy report scannable, engaging, and easy to digest for legal and clinical professionals, prioritizing key findings first and offering evidence on demand. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Summary of 17 signs (counts of Strongly, Partially, Absent). Goal: Compare proportions. Viz: Donut Chart. Interaction: Click segments to filter cards. Justification: Provides an immediate, understandable visual summary of the case's core findings. Library: Chart.js.
+        - Report Info: Each of the 17 signs. Goal: Organize & Inform. Presentation: Card grid. Interaction: Click card to see details; filter by status. Justification: Breaks down the wall of text into digestible, scannable units. Method: HTML/CSS/JS.
+        - Report Info: Detailed analysis and evidence for each sign. Goal: Detail on Demand. Presentation: Dynamically populated content block. Interaction: Populated on card click. Justification: Keeps the main interface clean while providing deep-dive information when requested. Method: JS DOM manipulation.
+        - All diagrams/visuals are built with HTML/CSS or Chart.js Canvas.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                max-width: 450px;
+            }
+        }
+        .evidence-quote {
+            border-left: 4px solid #d1d5db; /* border-gray-300 */
+            padding-left: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #4b5563; /* text-gray-600 */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-7xl">
+        
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">Interactive Analysis of Parental Alienation</h1>
+            <p class="mt-2 text-lg sm:text-xl text-gray-600">An Anonymized Case Study: Based on Dr. Amy J. Baker's 17 Strategies</p>
+        </header>
+
+        <main>
+            <!-- Section 1: Dashboard Summary -->
+            <section id="summary" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 mb-8">
+                <h2 class="text-2xl font-bold text-center mb-4 text-gray-900">Case Summary at a Glance</h2>
+                 <p class="text-center text-gray-600 max-w-3xl mx-auto mb-6">
+                    This dashboard provides an interactive overview of an anonymized parental alienation analysis. The findings are categorized based on the strength of the evidence found in documented communications. Interact with the chart or filters below to explore the specific strategies employed.
+                </p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+                    <div class="w-full md:w-1/2 chart-container">
+                        <canvas id="alienationChart"></canvas>
+                    </div>
+                    <div class="w-full md:w-1/2 text-center md:text-left">
+                        <div id="summary-metrics" class="space-y-4">
+                            <!-- Metrics will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Interactive Strategy Explorer -->
+            <section id="explorer" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 mb-8">
+                 <h2 class="text-2xl font-bold text-center mb-2 text-gray-900">Strategy Explorer</h2>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-6">
+                    Filter the 17 alienation strategies by the level of evidence found in the case documentation. Click on any card to view the detailed analysis and specific evidence extracted from the reports.
+                </p>
+                <div id="filters" class="flex flex-wrap justify-center gap-2 mb-6">
+                    <!-- Filter buttons will be populated by JS -->
+                </div>
+                <div id="strategy-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Strategy cards will be populated by JS -->
+                </div>
+            </section>
+            
+            <!-- Section 3: Detailed Evidence View -->
+            <section id="detail-view-container" class="hidden">
+                 <div id="detail-view" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 mb-8 relative">
+                    <button id="close-detail" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+                    <div id="detail-content">
+                        <!-- Detail content will be populated by JS -->
+                    </div>
+                 </div>
+            </section>
+
+             <!-- Section 4: About this Analysis -->
+            <section id="about" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold text-center mb-4 text-gray-900">About the Framework</h2>
+                <div class="prose max-w-none text-gray-700 space-y-4">
+                    <p>Parental alienation (PA) is a complex and deeply damaging phenomenon occurring within the context of high-conflict divorce or separation. It describes a situation where children are encouraged by one parent (the favored parent) to unjustly reject the other parent (the targeted parent). This rejection is not based on the child\'s actual experiences but rather on the emotional manipulation exerted by the favored parent. The specific actions and behaviors utilized by the favored parent to achieve this outcome are termed parental alienation strategies.</p>
+                    <p>This analysis is based on Dr. Amy J. Baker\'s extensive research, which has identified seventeen primary parental alienation strategies. It is imperative to distinguish parental alienation from legitimate estrangement, where a child\'s rejection is based on valid reasons such as substantiated abuse or neglect. A definitive identification of PA requires a comprehensive, multi-faceted assessment by a qualified professional, typically using Dr. Baker\'s five-factor model: (1) rejection of the parent, (2) a prior positive relationship, (3) absence of abuse by the rejected parent, (4) use of alienation strategies by the favored parent, and (5) exhibition of alienation behaviors by the child.</p>
+                     <p>This interactive report focuses primarily on documenting Factor 4—the behaviors of the alienating parent as documented in communications—against Dr. Baker\'s 17 strategies. It serves as a tool to visualize and explore the evidence presented in the case analysis.</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const alienationData = [
+                { id: 1, name: 'Badmouthing the Targeted Parent', status: 'Strongly Evidenced', definition: 'Making persistent negative or frightening statements about the targeted parent to the children.', analysis: 'There is clear evidence that the alienating parent has conveyed a defamatory narrative about the targeted parent to the children. During a specific visit, all three children “engaged [the targeted parent] in a lengthy series of questions regarding allegations of abuse — specifically statements that [they] ‘beat’ the mother or ‘hit her often.’” After the targeted parent answered their questions, the children “refused to engage further” and “did not wish to be near [them]” due to believing the targeted parent was violent. These extreme accusations did not originate from the children themselves; rather, they indicate that the alienating parent (or someone aligned with them) told the children that the targeted parent was physically abusive. Notably, the targeted parent observes that “false narratives are being reinforced without correction, despite private acknowledgments between the parents that these allegations are not accurate”. The children also explicitly called the targeted parent a "wife beater," refusing contact and accusing them of violence, despite no prior history or evidence of such behavior, and the alienating parent having privately admitted these claims were untrue. Most recently, one child asked, "if I beat the kitty, he said or just mom," further extending the narrative of abuse to include pets.' },
+                { id: 2, name: 'Limiting Contact with the Targeted Parent', status: 'Strongly Evidenced', definition: 'Disrupting or reducing the child’s time and communication with the targeted parent, often in violation of agreements.', analysis: 'The alienating parent has demonstrably impeded the targeted parent’s contact with the children. The targeted parent documents that they have “called [the other parent’s] cell phone, texted [their] cell, emailed [them], and sent ... messages”, and also tried contacting the children directly, but “nobody responds at all — no matter what I do”. Additionally, evidence from the children’s messages shows contact was actively curtailed: for example, a child texted the targeted parent, “Dad we love you and are safe. The constant messaging from you is giving me anxiety. I’m going to block you for the time being... Please stop.” This unusual directive from a child strongly implies that the alienating parent supported or instructed such limitation of contact. Repeated, coordinated refusals of visits/calls, with all children blocking the targeted parent, and all contact being funneled through the alienating parent, is evidenced in multiple messages and journals.' },
+                { id: 3, name: 'Interfering with Communication', status: 'Strongly Evidenced', definition: 'Obstructing or monitoring the normal communication between the child and the targeted parent.', analysis: 'As noted above, the targeted parent’s messages went unanswered; the alienating parent would not answer phone calls and failed to respond to messages on multiple platforms. The targeted parent explicitly states “there’s no way I can get in touch with you at all” regarding both the alienating parent and the children. It’s also documented that even via the court-sanctioned co-parenting app, the alienating parent read messages from the targeted parent but chose not to reply. Calls, texts, and app messages are ignored or blocked, with all communications funneled through the alienating parent. Taken together, these behaviors show a pattern of the alienating parent interfering with the targeted parent’s communications to the children and themselves, depriving the targeted parent of normal contact and updates.' },
+                { id: 4, name: 'Interfering with Symbolic Communication', status: 'Strongly Evidenced', definition: 'Preventing the child from feeling connected to the targeted parent even when apart (e.g., forbidding photos, constant texts during other parent\'s time).', analysis: 'There are strong indications that the alienating parent kept the children psychologically tethered to them and distant from the targeted parent during their parenting time. During a specific journal entry, the targeted parent reported that after discussing the false abuse allegations, “all three boys isolated themselves in one child\'s room [and] refused to engage further” for the remainder of the visit. The targeted parent “observed them comparing text messages on their phones and discussing their contents” while at their home, suggesting that the children were receiving input from the alienating parent in real time during the visit. Furthermore, there is consistent and documented evidence, including video recordings, that the children are in constant text contact with an unknown third party (likely the alienating parent or maternal family) throughout their time with the targeted parent. This behavior has been observed repeatedly, despite the targeted parent’s attempts to make them stop. The children also explicitly refused to take pictures with the targeted parent, and they deny any expression of connection. This persistent, uninterrupted communication with the alienating parent directly interferes with the children’s ability to emotionally engage and bond with their targeted parent, demonstrating a continuous and deliberate form of symbolic interference.' },
+                { id: 5, name: 'Withdrawal of Love (Conditional Approval)', status: 'Strongly Evidenced', definition: 'Making approval and affection conditional upon the child’s rejection of the other parent.', analysis: 'There is no direct quote of this; however, the children’s behavior suggests they may feel such pressure. One child\'s message telling the targeted parent they need to stop contacting them because it’s causing “anxiety” and that they will block them hints that the child is fearful of the turmoil or disapproval that results when they engage with their targeted parent. The children’s complete loyalty to the alienating parent’s narrative points to an environment in which the alienating parent\'s approval is paramount and must be maintained by rejecting the targeted parent. Crucially, the children now refuse to hug, touch, or engage with the targeted parent affectionately; all physical and emotional affectionate contact has ceased entirely post-separation.' },
+                { id: 6, name: 'Telling the Child that the Targeted Parent is Dangerous', status: 'Strongly Evidenced', definition: 'Convincing the child that the targeted parent poses a danger to them or others, often through fabricated stories of abuse.', analysis: 'The evidence strongly indicates that the alienating parent portrayed the targeted parent as dangerous. The most compelling example is the children’s belief that the targeted parent had routinely beaten their mother. During a specific visit, the children queried the targeted parent about claims that they “beat” and “hit [their mother] often”, and afterward they avoided being near them out of apparent fear. This belief was a narrative implanted in them, as the targeted parent notes the other parent herself had privately acknowledged these stories are not accurate. The children also directly called the targeted parent a "wife beater" and "abuser," displaying overt fear and avoidance despite no evidence or prior concern. These accusations only arose post-separation and post-removal from the targeted parent\'s home. Most recently, one son asked if the targeted parent "beat the kitty, he said or just mom," explicitly extending the narrative of danger and abuse to a vulnerable pet, further cementing the portrayal of the targeted parent as a threat.' },
+                { id: 7, name: 'Forcing the Child to Choose Between Parents', status: 'Strongly Evidenced', definition: 'Manipulating the child into overtly choosing the alienator over the targeted parent.', analysis: 'While there is no single event where a child is asked point-blank, the scenario suggests the children were made to choose. After the separation, the children have consistently aligned with the alienating parent to the exclusion of the targeted parent. For example, during a specific visit, they would not engage with them beyond confronting them with accusations. They essentially “choose” to stay emotionally with the alienating parent’s narrative rather than interact with the targeted parent. The children now explicitly demand loyalty to the alienating parent, refuse to communicate with the targeted parent, and will not visit or interact unless physically compelled. They have also explicitly asked to leave visitation early, stating they would be "more comfortable at home."' },
+                { id: 8, name: 'Telling the Child that the Targeted Parent Does not Love Him or Her', status: 'Partially Evidenced', definition: 'Convincing the child that the targeted parent has rejected or doesn’t care about them.', analysis: 'The documents do not show a direct quote. However, the targeted parent, in an email, expressed concern about “what the children are hearing” and emphasized that “they deserve to know they are loved by both parents.” This statement strongly implies that the targeted parent feared the children were being led to believe they no longer cared, possibly by the alienating parent framing the targeted parent\'s move from the family home as them "leaving" them. The narrative of "he left us" or "he doesn\'t care" is implied via the overall context, though direct evidence remains circumstantial.' },
+                { id: 9, name: 'Confiding in the Child (Inappropriate Adult Information)', status: 'Strongly Evidenced', definition: 'Sharing details of adult matters (divorce, finances, accusations) with the child to gain sympathy and alliance.', analysis: 'The clearest example is the domestic violence narrative. The children were clearly told about serious allegations of abuse – that the targeted parent had beaten their mother repeatedly. This is highly adult content, yet it was directly imparted to the children who then felt compelled to interrogate the targeted parent about it. By telling the children “your father hit me,” the alienating parent essentially made them their protectors and allies in a very adult situation, a textbook instance of this strategy. Furthermore, the children’s direct statements like "we will see you in court" and their constant questioning of why the targeted parent follows the agreement when it\'s "not helpful for them" demonstrate their inappropriate involvement in legal and financial discussions that should be reserved for adults, clearly indicating confiding behavior.' },
+                { id: 10, name: 'Forcing the Child to Reject the Targeted Parent', status: 'Strongly Evidenced', definition: 'Creating situations where the child is compelled to actively reject the targeted parent.', analysis: 'There are multiple instances. One striking example is a child\'s message telling the targeted parent that they will be blocking them and to cease contact. It is highly unusual for a child to take such an extreme step without external influence. Another example occurred during a specific visit: after confronting the targeted parent, all three children collectively refused to spend time with them for the rest of the scheduled visit, an enactment of rejection. Most recently, the children have refused to hug or let the targeted parent touch them, and completely refuse to talk to or listen to them in any way at all. They also explicitly asked to leave the visitation early, stating they would be "more comfortable at home," with the oldest son even saying he would "rather be in prison then here at visitations with me." These behaviors represent an active and comprehensive rejection of the targeted parent, strongly indicative of being forced or encouraged to do so.' },
+                { id: 11, name: 'Asking the Child to Spy on the Targeted Parent', status: 'Strongly Evidenced', definition: 'Encouraging the child to gather information from the targeted parent’s home, papers, or conversations and report back.', analysis: 'Yes. During a recorded visit, all three children asked the targeted parent for permission to look through their emails, search their apartment for anything illegal, look through their phone, and search through their drawers. The children were polite but persistent and repeatedly asked if they could check the place for “anything.” This entire exchange was captured on camera by the targeted parent as direct evidence. At no prior time—before the separation and onset of alienation—did any of the children ever ask to search or look through the targeted parent’s belongings, devices, or personal space. This is a sudden, coordinated behavior not previously exhibited by the children, strongly suggesting they were prompted or encouraged—most likely by the alienating parent or another adult in their circle—to act as “investigators” of the targeted parent. This is a textbook demonstration of this sign, and the video evidence makes it unusually compelling for court or forensic analysis, removing any ambiguity about its occurrence.' },
+                { id: 12, name: 'Asking the Child to Keep Secrets from the Targeted Parent', status: 'Strongly Evidenced', definition: 'Encouraging the child to withhold important information from the targeted parent.', analysis: 'One child asked the targeted parent, “Where are you?” and the only response given was, “Safe.” They would not disclose their location. This suggests that the child had been instructed not to tell the targeted parent their whereabouts. It was a calculated reassurance that gave no actual information, a textbook example of keeping secrets at the alienating parent\'s behest. Children now consistently withhold location, activities, and third-party contacts from the targeted parent, and refuse to answer basic questions.' },
+                { id: 13, name: 'Referring to the Targeted Parent by First Name', status: 'Strongly Evidenced', definition: 'Stopping use of “Mom” or “Dad” and using the parent\'s first name or other formal terms to diminish their role.', analysis: 'Yes. There is compelling and undisputed evidence that the children began using the targeted parent\'s given names or formal titles instead of “Dad” only after their removal from the targeted parent’s care. Prior to this, all communications showed consistent use of “Dad” or affectionate variants. This abrupt and unprecedented linguistic shift coincides precisely with their alignment with the alienating parent and rejection of the targeted parent, indicating outside influence. For example, one child texted, "[Given Name] I do not want to talk to you I’m ending this conversation” and “Sir I’m busy with my friends.” Another child messaged, “Goodnight sir, you may contact me but I will not respond…” and crucially, "[Given Name], you lost the right to call yourself dad a long time ago.” The consistent use of these formal or hostile terms by all three children post-separation, with no prior history, is a clear indicator of parental identity erasure and a persuasive sign of severe parental alienation.' },
+                { id: 14, name: 'Referring to a Stepparent as “Mom” or “Dad”', status: 'Absent', definition: 'Encouraging the child to call a new partner “Mom” or “Dad,” effectively replacing the targeted parent.', analysis: 'This is not applicable as there is no stepparent in the picture as of the evidence provided. Consequently, this tactic is not observed.' },
+                { id: 15, name: 'Withholding Important Information', status: 'Strongly Evidenced', definition: 'Withholding medical, academic, or other important information and excluding the parent from documents.', analysis: 'The record shows a consistent pattern. The targeted parent itemized multiple “unanswered parenting questions” that they had been asking for over five weeks with no response. These included fundamental concerns such as: “Who watches the children when you are away? What are their current schedules (school pickup/drop-off)? When are their next school and sports events?” This is clear evidence of withholding critical information. The targeted parent is consistently excluded from medical, school, and extracurricular information despite multiple requests.' },
+                { id: 16, name: 'Changing the Child’s Name', status: 'Absent', definition: 'Changing the child’s name to remove association with the targeted parent.', analysis: 'There has been no indication of any attempt to change the children’s names. They continue to be referred to by their original surnames. This alienation tactic is absent.' },
+                { id: 17, name: 'Cultivating Dependency & Undermining Authority', status: 'Strongly Evidenced', definition: 'Fostering excessive dependency on the alienator while subverting the targeted parent’s authority.', analysis: 'There is evidence that the alienating parent has undermined the targeted parent’s authority. During a specific visit, the children rejected the targeted parent\'s role by refusing to speak with them or eat the lunch offered. Furthermore, a child\'s message telling the targeted parent to stop contacting them and that they would block them is a direct challenge to the targeted parent’s authority coming from a child, something that would likely only occur if the alienating parent’s authority has eclipsed the targeted parent’s completely. Most recently, the children have refused to talk to or listen to the targeted parent in any way, indicating a complete disregard for their authority. Their constant questioning of why the targeted parent follows the agreement when it\'s "not helpful for them" also demonstrates a clear undermining of their adherence to legal and structured parenting. Their desire to leave visitations early to be "more comfortable at home" reinforces their dependency on the alienating parent\'s environment and a rejection of the targeted parent\'s space and authority. The oldest child explicitly stated they would "rather be in prison than here at visitations with me," showing extreme resistance and complete disregard for the targeted parent\'s authority and the visitation process.' },
+            ];
+
+            // Recalculate status counts based on updated data
+            const statusCounts = alienationData.reduce((acc, sign) => {
+                acc[sign.status] = (acc[sign.status] || 0) + 1;
+                return acc;
+            }, {});
+
+            const chartData = {
+                labels: ['Strongly Evidenced', 'Partially Evidenced', 'Absent'],
+                datasets: [{
+                    data: [
+                        statusCounts['Strongly Evidenced'] || 0,
+                        statusCounts['Partially Evidenced'] || 0,
+                        statusCounts['Absent'] || 0
+                    ],
+                    backgroundColor: ['#ef4444', '#f97316', '#6b7280'],
+                    borderColor: ['#fff'],
+                    borderWidth: 4,
+                    hoverOffset: 8
+                }]
+            };
+
+            const alienationChartCtx = document.getElementById('alienationChart').getContext('2d');
+            // Destroy existing chart instance if it exists to prevent conflicts
+            if (window.alienationChartInstance) {
+                window.alienationChartInstance.destroy();
+            }
+            window.alienationChartInstance = new Chart(alienationChartCtx, { // Store instance globally
+                type: 'doughnut',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { size: 14 },
+                                padding: 20,
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + ' signs';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    onClick: (evt, elements) => {
+                        if (elements.length > 0) {
+                            const clickedLabel = chartData.labels[elements[0].index];
+                            const filterStatus = clickedLabel.replace(' ', ''); // 'StronglyEvidenced'
+                            renderStrategyCards(filterStatus);
+
+                            document.querySelectorAll('#filters button').forEach(btn => {
+                                btn.classList.remove('bg-blue-600', 'text-white');
+                                btn.classList.add('bg-gray-200', 'text-gray-700');
+                                if(btn.dataset.filter === filterStatus) {
+                                    btn.classList.add('bg-blue-600', 'text-white');
+                                    btn.classList.remove('bg-gray-200', 'text-gray-700');
+                                }
+                            });
+
+                             document.getElementById('explorer').scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                }
+            });
+
+            const summaryMetricsContainer = document.getElementById('summary-metrics');
+            summaryMetricsContainer.innerHTML = ''; // Clear existing metrics before re-rendering
+            chartData.labels.forEach((label, index) => {
+                const count = chartData.datasets[0].data[index];
+                const color = chartData.datasets[0].backgroundColor[index];
+                const total = chartData.datasets[0].data.reduce((a, b) => a + b, 0);
+                const percentage = total > 0 ? ((count / total) * 100).toFixed(0) : 0;
+
+                const metricEl = document.createElement('div');
+                metricEl.className = 'flex items-center gap-4';
+                metricEl.innerHTML = `
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold" style="background-color: ${color};">
+                        ${count}
+                    </div>
+                    <div>
+                        <p class="font-bold text-xl">${label}</p>
+                        <p class="text-gray-600">${percentage}% of the 17 indicators</p>
+                    </div>
+                `;
+                summaryMetricsContainer.appendChild(metricEl);
+            });
+
+
+            const filtersContainer = document.getElementById('filters');
+            const strategyGrid = document.getElementById('strategy-grid');
+            const detailViewContainer = document.getElementById('detail-view-container');
+            const detailView = document.getElementById('detail-view');
+            const detailContent = document.getElementById('detail-content');
+            const closeDetailBtn = document.getElementById('close-detail');
+
+            const statusConfig = {
+                'Strongly Evidenced': {
+                    label: 'Strongly Evidenced',
+                    color: 'bg-red-100 text-red-800 border-red-300'
+                },
+                'Partially Evidenced': {
+                    label: 'Partially Evidenced',
+                    color: 'bg-orange-100 text-orange-800 border-orange-300'
+                },
+                'Absent': {
+                    label: 'Absent',
+                    color: 'bg-gray-100 text-gray-800 border-gray-300'
+                }
+            };
+            
+            const filters = ['All', ...Object.keys(statusConfig)];
+            // Re-render filter buttons to ensure 'All' is active or previously selected filter is.
+            filtersContainer.innerHTML = ''; 
+            filters.forEach(filter => {
+                 const button = document.createElement('button');
+                 const filterKey = filter.replace(' ', '');
+                 button.textContent = filter;
+                 button.dataset.filter = filterKey;
+                 button.className = `px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${filterKey === 'All' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`;
+                 button.addEventListener('click', () => {
+                    document.querySelectorAll('#filters button').forEach(btn => {
+                        btn.classList.remove('bg-blue-600', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    button.classList.add('bg-blue-600', 'text-white');
+                    button.classList.remove('bg-gray-200', 'text-gray-700');
+                    renderStrategyCards(filterKey);
+                 });
+                 filtersContainer.appendChild(button);
+            });
+
+            const renderStrategyCards = (filter = 'All') => {
+                strategyGrid.innerHTML = '';
+                const filteredData = alienationData.filter(sign => filter === 'All' || sign.status.replace(' ', '') === filter);
+
+                filteredData.forEach(sign => {
+                    const card = document.createElement('div');
+                    const config = statusConfig[sign.status];
+                    card.className = 'bg-white p-4 rounded-lg border border-gray-200 hover:shadow-md hover:border-blue-400 transition-all duration-200 cursor-pointer flex flex-col justify-between';
+                    card.dataset.id = sign.id;
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-bold text-gray-800">${sign.id}. ${sign.name}</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">${sign.definition}</p>
+                        </div>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full border ${config.color}">${config.label}</span>
+                            <span class="text-blue-600 font-semibold text-sm">View Evidence &rarr;</span>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => showDetail(sign.id));
+                    strategyGrid.appendChild(card);
+                });
+            };
+
+            const showDetail = (id) => {
+                const sign = alienationData.find(s => s.id === id);
+                if (!sign) return;
+                
+                const config = statusConfig[sign.status];
+
+                let analysisHtml = sign.analysis;
+                const quoteRegex = /“([^”]+)”/g;
+                analysisHtml = analysisHtml.replace(quoteRegex, (match, p1) => {
+                    return `<blockquote class="evidence-quote">${p1}</blockquote>`;
+                });
+
+                detailContent.innerHTML = `
+                    <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full border ${config.color} mb-4 inline-block">${config.label}</span>
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2 text-gray-900">${sign.id}. ${sign.name}</h2>
+                    <p class="text-base text-gray-600 mb-4"><strong>Definition:</strong> ${sign.definition}</p>
+                    <div class="prose max-w-none text-gray-700">${analysisHtml}</div>
+                `;
+                detailViewContainer.classList.remove('hidden');
+                detailView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+
+            closeDetailBtn.addEventListener('click', () => {
+                detailViewContainer.classList.add('hidden');
+            });
+            
+            renderStrategyCards();
+        });
+    </script>
+</body>
+</html>
